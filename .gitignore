@@ -1,0 +1,25 @@
+# Node Modules
+/backend/node_modules
+/frontend/node_modules
+
+# Environment files
+/backend/.env
+/frontend/.env
+
+# Build artifacts
+/backend/dist
+/frontend/dist
+/frontend/build
+
+# IDE specific files
+/frontend/.idea/
+/frontend/.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Angular distribution
+/frontend/dist # Added the Angular distribution for .gitignore
+/frontend/.angular
+/frontend/.sass-cache
