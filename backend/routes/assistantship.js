@@ -28,8 +28,17 @@ router.get('/all_professor', auth, async (req, res) => {
   if (req.user.role !== 'professor')
     return res.status(403).json({ msg: 'Only professors can view their assistantships' });
 
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const skip = (page - 1) * limit;
+  // Count total first
+  const total = await Assistantship.countDocuments({ professor: req.user.id });
+
+
   const assistantships = await Assistantship.find({ professor: req.user.id })
     .select('title domain endTime createdAt')
+    .skip(skip)
+    .limit(limit)
     .lean(); // make documents plain JS objects for easier manipulation
 
   // Fetch counts in parallel
@@ -46,7 +55,13 @@ router.get('/all_professor', auth, async (req, res) => {
     applicantCount: countMap.get(a._id.toString()) || 0
   }));
 
-  res.json(enriched);
+  res.json({
+    total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit),
+    data: enriched
+  });
 });
 
 
