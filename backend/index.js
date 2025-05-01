@@ -20,4 +20,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/assistantships', assistantshipRoutes);
 app.use('/api/applications', applicationRoutes);
 
+app.use('/uploads', express.static('uploads'));
+
 app.listen(5000, () => console.log('Server running on port 5000'));

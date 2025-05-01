@@ -4,7 +4,9 @@ const applicationSchema = new mongoose.Schema({
   assistantship: { type: mongoose.Schema.Types.ObjectId, ref: 'Assistantship' },
   student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   motivation: String,
-  createdAt: { type: Date, default: Date.now }
+  resumePath: String,
+  createdAt: { type: Date, default: Date.now },
+  status: { type: String, enum: ['pending', 'accepted', 'rejected'], default: 'pending' }
 });
 
 module.exports = mongoose.model('Application', applicationSchema);
