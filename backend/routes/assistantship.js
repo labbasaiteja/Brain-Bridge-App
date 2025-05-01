@@ -1,7 +1,7 @@
 const express = require('express');
-const Assistantship = require('../models/Assistantship');
+const Assistantship = require('../models/assistantship');
 const auth = require('../middleware/auth');
-const User = require('../models/User');
+const User = require('../models/user');
 const router = express.Router();
 
 // Professor posts assistantship

@@ -1,6 +1,6 @@
 const express = require('express');
-const Application = require('../models/Application');
-const Assistantship = require('../models/Assistantship');
+const Application = require('../models/application');
+const Assistantship = require('../models/assistantship');
 const auth = require('../middleware/auth');
 const router = express.Router();
 
