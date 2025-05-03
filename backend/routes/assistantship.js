@@ -150,7 +150,7 @@ router.delete('/:id', auth, async (req, res) => {
     return res.status(403).json({ msg: 'You do not own this assistantship' });
   }
 
-  await assistantship.remove();
+  await Assistantship.deleteOne({ _id: assistantship._id });
   res.json({ msg: 'Assistantship deleted' });
 });
 
