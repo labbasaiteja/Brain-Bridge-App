@@ -1,6 +1,7 @@
 # TA Application – API Summary
 
 Since we have not deployed, now is http://localhost:5000
+
 for example: http://localhost:5000/api/auth/register
 
 ---
@@ -92,7 +93,9 @@ Professor creates a new assistantship.
 
 ### GET `/api/assistantships/all_professor`
 Professor views all their assistantships + application count
+
 Page and Limit are optional. Default value are 1 and 5
+
 For example: /api/assistantships/all_professor?page=1&limit=5
 
 #### Response:
@@ -127,7 +130,9 @@ For example: /api/assistantships/all_professor?page=1&limit=5
 
 ### GET `/api/assistantships/:id/professor`
 Professor view a single assistantship + applications
+
 The id will be the assistantship id.
+
 For example: /api/assistantships/68156921d53fe63231b20066/professor
 
 #### Response:
@@ -156,7 +161,9 @@ For example: /api/assistantships/68156921d53fe63231b20066/professor
 
 ### PUT `/api/assistantships/:id`
 Professor update assistantship fields.
+
 the id is assistantship id.
+
 for example: /api/assistantships/68156921d53fe63231b20066
 
 #### Request Body (any subset):
@@ -192,6 +199,7 @@ for example: /api/assistantships/68156921d53fe63231b20066
 
 ### DELETE `/api/assistantships/:id`
 Professor delete assistantship.
+
 the id is assistantship id.
 
 #### Response:
@@ -205,7 +213,9 @@ the id is assistantship id.
 
 ### GET `/api/assistantships/search?query=ai`
 Professor searches for assistantships by title/domain.
+
 page and limit are optional and default value are 1 and 5.
+
 for example: /api/assistantships/search?query=ai&page=1&limit=5
 
 #### Response: same as `all_professor`
@@ -216,6 +226,7 @@ for example: /api/assistantships/search?query=ai&page=1&limit=5
 
 ### POST `/api/applications/`
 Student applies to assistantship (multipart/form-data)
+
 
 #### Form Fields:
 - `assistantshipId`: string (required)
@@ -240,6 +251,7 @@ Student applies to assistantship (multipart/form-data)
 
 ### GET `/api/applications/:id/professor`
 Professor views a specific application
+
 the id is application id.
 
 #### Response:
@@ -264,6 +276,7 @@ the id is application id.
 
 ### PUT `/api/applications/:id/status`
 Professor accept or reject application. changing the status
+
 the id is application id.
 
 #### Request Body:
