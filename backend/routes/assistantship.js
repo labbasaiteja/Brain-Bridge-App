@@ -36,7 +36,7 @@ router.get('/all_professor', auth, async (req, res) => {
 
 
   const assistantships = await Assistantship.find({ professor: req.user.id })
-    .select('title domain endTime createdAt')
+    .select('title domain endTime createdAt status')
     .skip(skip)
     .limit(limit)
     .lean(); // make documents plain JS objects for easier manipulation
@@ -92,6 +92,7 @@ router.get('/:id/professor', auth, async (req, res) => {
       domain: assistantship.domain,
       endTime: assistantship.endTime,
       createdAt: assistantship.createdAt,
+      status: assistantship.status,
       applications: applications.map(app => ({
         studentName: app.student.name,
         studentEmail: app.student.email,
@@ -106,6 +107,88 @@ router.get('/:id/professor', auth, async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 });
+
+// Professor edits an assistantship
+router.put('/:id', auth, async (req, res) => {
+  if (req.user.role !== 'professor') {
+    return res.status(403).json({ msg: 'Only professors can edit assistantships' });
+  }
+
+  const { title, description, domain, endTime, status  } = req.body;
+
+  const assistantship = await Assistantship.findById(req.params.id);
+  if (!assistantship) {
+    return res.status(404).json({ msg: 'Assistantship not found' });
+  }
+
+  if (assistantship.professor.toString() !== req.user.id) {
+    return res.status(403).json({ msg: 'You do not own this assistantship' });
+  }
+
+  if (title !== undefined) assistantship.title = title;
+  if (description !== undefined) assistantship.description = description;
+  if (domain !== undefined) assistantship.domain = domain;
+  if (endTime !== undefined) assistantship.endTime = endTime;
+  if (status !== undefined) assistantship.status = status;
+
+  await assistantship.save();
+  res.json({ msg: 'Assistantship updated', assistantship });
+});
+
+// Professor deletes an assistantship
+router.delete('/:id', auth, async (req, res) => {
+  if (req.user.role !== 'professor') {
+    return res.status(403).json({ msg: 'Only professors can delete assistantships' });
+  }
+
+  const assistantship = await Assistantship.findById(req.params.id);
+  if (!assistantship) {
+    return res.status(404).json({ msg: 'Assistantship not found' });
+  }
+
+  if (assistantship.professor.toString() !== req.user.id) {
+    return res.status(403).json({ msg: 'You do not own this assistantship' });
+  }
+
+  await assistantship.remove();
+  res.json({ msg: 'Assistantship deleted' });
+});
+
+// Professor searches for assistantships
+router.get('/search', auth, async (req, res) => {
+  if (req.user.role !== 'professor') {
+    return res.status(403).json({ msg: 'Only professors can search their assistantships' });
+  }
+
+  const { query = '', page = 1, limit = 5 } = req.query;
+  const skip = (page - 1) * limit;
+
+  const searchRegex = new RegExp(query, 'i'); // case-insensitive
+
+  const filter = {
+    professor: req.user.id,
+    $or: [
+      { title: searchRegex },
+      { domain: searchRegex }
+    ]
+  };
+
+  const total = await Assistantship.countDocuments(filter);
+  const results = await Assistantship.find(filter)
+    .select('title domain endTime createdAt status')
+    .skip(skip)
+    .limit(parseInt(limit))
+    .lean();
+
+  res.json({
+    total,
+    page: parseInt(page),
+    limit: parseInt(limit),
+    totalPages: Math.ceil(total / limit),
+    data: results
+  });
+});
+
 
 // Get all assistantships
 router.get('/', async (req, res) => {

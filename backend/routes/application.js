@@ -98,6 +98,35 @@ router.get('/:id/professor', auth, async (req, res) => {
   }
 });
 
+// Professor updates application status
+router.put('/:id/status', auth, async (req, res) => {
+  if (req.user.role !== 'professor') {
+    return res.status(403).json({ msg: 'Only professors can update application status' });
+  }
+
+  const { status } = req.body;
+
+  if (!['accepted', 'rejected'].includes(status)) {
+    return res.status(400).json({ msg: 'Invalid status value' });
+  }
+
+  const application = await Application.findById(req.params.id).populate('assistantship');
+  if (!application) {
+    return res.status(404).json({ msg: 'Application not found' });
+  }
+
+  // Check that the professor owns the assistantship
+  if (application.assistantship.professor.toString() !== req.user.id) {
+    return res.status(403).json({ msg: 'You do not own this assistantship' });
+  }
+
+  application.status = status;
+  await application.save();
+
+  res.json({ msg: `Application ${status}`, application });
+});
+
+
 // Professor views applications for their assistantships
 router.get('/professor', auth, async (req, res) => {
   if (req.user.role !== 'professor')
