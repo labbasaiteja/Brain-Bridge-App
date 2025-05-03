@@ -1,0 +1,106 @@
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff; /* White background for whole page */
+}
+
+.login-left {
+  width: 50%;
+  padding: 60px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-left h2 {
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #2c2c54; /* Darker heading */
+}
+
+.login-left label {
+  margin-top: 15px;
+  font-weight: 500;
+  color: #333;
+}
+
+.login-left input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button {
+  margin-top: 25px;
+  padding: 12px;
+  background-color: #3734A9; /* Sidebar blue */
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+}
+
+.link-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.link-text a {
+  color: #3734A9;
+  text-decoration: none;
+}
+
+.link-text a:hover {
+  text-decoration: underline;
+}
+
+.login-right {
+  width: 50%;
+  background-color: #3949ab; 
+  text-align: center;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+
+.login-right h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.login-right p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color:#ffffff;;
+}
+
+.login-right img {
+  max-width: 150px;
+  margin: 0 auto;
+}
