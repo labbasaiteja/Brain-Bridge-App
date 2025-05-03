@@ -1,4 +1,4 @@
-/* Container holding the entire dashboard layout */
+/* Overall dashboard container */
 .dashboard-container {
     display: flex;
     flex-direction: column;
@@ -24,53 +24,60 @@
     margin-right: 1rem;
   }
   
-  /* Welcome message */
+  /* Welcome message styling */
   .welcome-message {
     font-size: 1.2rem;
   }
   
-  /* Layout for the sidebar and main content */
+  /* Container for sidebar and main content */
   .content-container {
     display: flex;
     flex: 1;
   }
   
-  /* Sidebar (left pane) styles */
+  /* Sidebar styling */
   .sidebar {
-    width: 200px;
     background-color: #3949ab;
     color: white;
+    /* Collapsed width: change this value to adjust how much “little sidebar” is visible */
+    width: 60px; 
+    transition: width 0.3s;
+    overflow: hidden;
+    box-sizing: border-box;
+    /* Optionally, add minimal vertical padding to center the collapsed status */
+    padding: 1rem 0;
+  }
+  
+  /* Expanded sidebar styling */
+  .sidebar.expanded {
+    /* Expanded width: adjust this value as needed */
+    width: 200px;
     padding: 1rem;
   }
   
-  /* Sidebar list styles */
+  /* Sidebar list: style the <ul> and list items */
   .sidebar ul {
     list-style: none;
     padding: 0;
+    margin: 0;
   }
   
   .sidebar li {
     margin: 1rem 0;
   }
   
+  /* Ensure sidebar links are visibly clickable */
   .sidebar li a {
     color: white;
     text-decoration: none;
-    font-size: 1rem;
+    display: block;
+    padding: 0.5rem;
+    cursor: pointer;  /* Changes pointer to hand icon when hovered */
   }
   
-  /* Close button inside the sidebar */
-  .close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    margin-bottom: 1rem;
-  }
-  
-  /* Main content styles */
+  /* Main content area styling */
   .main-content {
     flex: 1;
     padding: 1rem;
+    overflow-y: auto;
   }

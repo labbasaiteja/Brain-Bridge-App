@@ -23,19 +23,35 @@ export class DashboardComponent {
   ];
   
    // Toggle variable for sidebar visibility
-   isSidebarOpen: boolean = false;
+   isSidebarExpanded: boolean = false;
    professorName: string = "Professor John Doe"; // Replace with dynamic data if needed
  
-   // Toggle the sidebar open/close state
-   toggleSidebar() {
-     this.isSidebarOpen = !this.isSidebarOpen;
-   }
- 
-   // Stub for logout, add real logic here
-   logout() {
-     console.log("Logging out...");
-     // Implement a logout service or redirection here
-   }
+   // Hover-based methods
+  openSidebar() {
+    this.isSidebarExpanded = true;
+  }
+
+  closeSidebar() {
+    this.isSidebarExpanded = false;
+  }
+
+  // Placeholder click event methods for sidebar options
+  onProfile() {
+    console.log("Profile clicked");
+  }
+
+  onManageJobPostings() {
+    console.log("Manage Job Postings clicked");
+  }
+
+  onViewApplicants() {
+    console.log("View Applicants clicked");
+  }
+
+  onLogout() {
+    console.log("Log Out clicked");
+  }
+
  
  // constructor() { }
 
