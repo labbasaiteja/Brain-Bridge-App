@@ -14,6 +14,24 @@ Authorization: Bearer <JWT_TOKEN>
 ```
 ---
 
+### 📋 API Endpoints Overview
+
+| Method | Endpoint                                       | Description                                             | Role         |
+|--------|------------------------------------------------|---------------------------------------------------------|--------------|
+| POST   | `/api/auth/register`                           | Register new user and return JWT                        | Public       |
+| POST   | `/api/auth/login`                              | Login and return JWT                                    | Public       |
+| POST   | `/api/assistantships/`                         | Create new assistantship                                | Professor    |
+| GET    | `/api/assistantships/all_professor`            | Get professor's assistantships + applicant count        | Professor    |
+| GET    | `/api/assistantships/:id/professor`            | Get one assistantship with applications                 | Professor    |
+| PUT    | `/api/assistantships/:id`                      | Update assistantship info                               | Professor    |
+| DELETE | `/api/assistantships/:id`                      | Delete assistantship                                    | Professor    |
+| GET    | `/api/assistantships/search`                   | Search assistantships by title or domain                | Professor    |
+| POST   | `/api/applications/`                           | Apply to assistantship (PDF upload)                     | Student      |
+| GET    | `/api/applications/:id/professor`              | Professor views single application                      | Professor    |
+| PUT    | `/api/applications/:id/status`                 | Accept or reject an application                         | Professor    |
+
+---
+
 
 ## Authentication
 
