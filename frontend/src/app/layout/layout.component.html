@@ -21,18 +21,26 @@
       <!-- Sidebar -->
       <nav class="sidebar" (mouseenter)="openSidebar()" (mouseleave)="closeSidebar()" [class.expanded]="isSidebarExpanded">
         <ul>
+          <li routerLink="/dashboard" routerLinkActive="active">
+                <i class="fa fa-tachometer-alt"></i>
+                <span class="menu-label" [class.visible]="isSidebarExpanded">Dashboard</span>
+         </li>
           <li (click)="onProfile()">
             <i class="fa fa-user"></i>
             <span class="menu-label" [class.visible]="isSidebarExpanded">Profile</span>
           </li>
-          <li (click)="onManageJobPostings()">
+          <li routerLink="/manage-postings" routerLinkActive="active">
             <i class="fa fa-briefcase"></i>
             <span class="menu-label" [class.visible]="isSidebarExpanded">Manage Job Postings</span>
           </li>
-          <li (click)="onViewApplicants()">
+          <!--<li (click)="onViewApplicants()">
             <i class="fa fa-users"></i>
             <span class="menu-label" [class.visible]="isSidebarExpanded">View Applicants</span>
-          </li>
+          </li>-->
+          <li routerLink="/view-applicants" routerLinkActive="active">
+            <i class="fa fa-users"></i>
+            <span class="menu-label" [class.visible]="isSidebarExpanded">View Applicants</span>
+          </li>          
           <li (click)="onLogout()">
             <i class="fa fa-sign-out-alt"></i>
             <span class="menu-label" [class.visible]="isSidebarExpanded">Log Out</span>
