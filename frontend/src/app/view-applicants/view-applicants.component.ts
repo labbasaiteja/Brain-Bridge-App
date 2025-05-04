@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
-interface Assistantship {
-  id: number;
-  title: string;
-}
 
 interface Applicant {
   name: string;
   department: string;
   gpa: number;
   year: string;
+  motivation: string;
+  resumeUrl: string;
+  coverLetterUrl: string;
+}
+
+interface Assistantship {
+  id: number;
+  title: string;
 }
 
 @Component({
@@ -23,7 +26,9 @@ interface Applicant {
   styleUrls: ['./view-applicants.component.css']
 })
 export class ViewApplicantsComponent implements OnInit {
+
   selectedPostingId: number | null = null;
+  selectedApplicant: Applicant | null = null; // ✅ Fix: define this
 
   constructor(private route: ActivatedRoute) {}
 
@@ -35,14 +40,46 @@ export class ViewApplicantsComponent implements OnInit {
 
   applicantsMap: { [key: number]: Applicant[] } = {
     1: [
-      { name: 'Alice Johnson', department: 'CS', gpa: 3.9, year: 'Graduate' },
-      { name: 'Bob Smith', department: 'AI', gpa: 3.8, year: 'Senior' }
+      { 
+        name: 'Alice Johnson',
+        department: 'CS',
+        gpa: 3.9,
+        year: 'Graduate',
+        motivation: 'I am passionate about AI and want to assist in cutting-edge research.',
+        resumeUrl: 'assets/test.pdf',
+        coverLetterUrl: 'assets/sample-cover-alice.pdf'
+      },
+      {
+        name: 'Bob Smith',
+        department: 'AI',
+        gpa: 3.8,
+        year: 'Senior',
+        motivation: 'Looking to deepen my experience in ML before grad school.',
+        resumeUrl: 'assets/test.pdf',
+        coverLetterUrl: 'assets/sample-cover-bob.pdf'
+      }
     ],
     3: [
-      { name: 'Carla Chen', department: 'HCI', gpa: 3.7, year: 'Junior' }
+      {
+        name: 'Carla Chen',
+        department: 'HCI',
+        gpa: 3.7,
+        year: 'Junior',
+        motivation: 'Interested in user-focused research and design systems.',
+        resumeUrl: 'assets/test.pdf',
+        coverLetterUrl: 'assets/sample-cover-carla.pdf'
+      }
     ],
     2: [
-      { name: 'David Kim', department: 'Data Science', gpa: 3.6, year: 'Graduate' }
+      {
+        name: 'David Kim',
+        department: 'Data Science',
+        gpa: 3.6,
+        year: 'Graduate',
+        motivation: 'Looking to gain experience in handling large-scale real-world datasets.',
+        resumeUrl: 'assets/test.pdf',
+        coverLetterUrl: 'assets/sample-cover-david.pdf'
+      }
     ]
   };
 
@@ -57,5 +94,20 @@ export class ViewApplicantsComponent implements OnInit {
         this.selectedPostingId = id;
       }
     });
+  }
+
+  openModal(applicant: Applicant): void {
+    this.selectedApplicant = applicant;
+  }
+
+  closeModal(): void {
+    this.selectedApplicant = null;
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: KeyboardEvent) {
+    if (this.selectedApplicant) {
+      this.closeModal();
+    }
   }
 }
