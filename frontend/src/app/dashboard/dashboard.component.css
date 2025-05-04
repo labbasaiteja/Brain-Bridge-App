@@ -1,100 +1,93 @@
-/* Overall dashboard container */
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+.p-4 {
+  padding: 1rem;
 }
 
-/* Header styling */
-.header {
-  background-color: #283593;
-  color: white;
-  padding: 1rem;
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.flex {
   display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
   align-items: center;
 }
 
-/* Sidebar toggle button styling in header */
-.sidebar-toggle {
-  background: none;
-  border: none;
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-gray-600 {
+  color: #718096;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.bg-blue-100 {
+  background-color: #ebf8ff;
+}
+
+.text-blue-800 {
+  color: #2c5282;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.bg-gray-800 {
+  background-color: #2d3748;
+}
+
+.text-white {
   color: white;
-  font-size: 1.8rem;
-  cursor: pointer;
-  margin-right: 1rem;
 }
 
-/* Welcome message styling */
-.welcome-message {
-  font-size: 1.2rem;
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
-/* Layout container for sidebar and main content */
-.content-container {
-  display: flex;
-  flex: 1;
-}
-
-/* Sidebar base styling */
-.sidebar {
-  background-color: #3949ab;
-  color: white;
-  /* Collapsed width (only icons visible); adjust this value as needed */
-  width: 60px;
-  transition: width 0.3s ease;
-  box-sizing: border-box;
-  padding: 1rem 0;
-  overflow: hidden;
-  
-}
-
-/* Expanded sidebar styling */
-.sidebar.expanded {
-  /* Expanded width; adjust as needed */
-  width: 200px;
-  padding: 1rem;
-}
-
-/* Sidebar list styles */
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar li {
-  margin: 1rem 0;
-  display: flex;
-  align-items: center;
-  /*justify-content: right; centers icon and text */
-  cursor: pointer; /* ensures a hand icon on hover */
-}
-
-/* Icon styling in sidebar */
-.sidebar li i {
-  font-size: 1.2rem;
-}
-
-/* Menu label text:
-   Initially hidden (opacity 0, no margin) and then fades in with a margin when visible.
-   Transition properties provide a smoother appearance once sidebar is fully expanded.
-*/
-.menu-label {
-  opacity: 0;
-  margin-left: 0;
-  white-space: nowrap;
-  transition: opacity 0.3s ease, margin-left 0.3s ease;
-}
-
-/* When sidebar is expanded, the menu label becomes visible */
-.menu-label.visible {
-  opacity: 1;
-  margin-left: 8px; /* controls spacing from icon to text */
-}
-
-/* Main content styling */
-.main-content {
-  flex: 1;
-  padding: 1rem;
-  overflow-y: auto;
+.hover\:bg-gray-700:hover {
+  background-color: #4a5568;
 }

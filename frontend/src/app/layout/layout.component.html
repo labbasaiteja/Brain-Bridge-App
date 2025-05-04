@@ -1,0 +1,55 @@
+<div class="layout-root">
+    <!-- Header -->
+    <header class="header">
+      <button
+        class="sidebar-toggle"
+        (mouseenter)="openSidebar()"
+        (mouseleave)="closeSidebar()"
+        aria-label="Toggle sidebar"
+        title="Toggle sidebar"
+      >
+        <i *ngIf="!isSidebarExpanded" class="fa fa-bars" aria-hidden="true"></i>
+        <i *ngIf="isSidebarExpanded" class="fa fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      <div class="welcome-message">
+        Welcome, {{ professorName }}
+      </div>
+    </header>
+  
+    <!-- Main area with sidebar + content -->
+    <div class="body-container">
+      <!-- Sidebar -->
+      <nav class="sidebar" (mouseenter)="openSidebar()" (mouseleave)="closeSidebar()" [class.expanded]="isSidebarExpanded">
+        <ul>
+          <li (click)="onProfile()">
+            <i class="fa fa-user"></i>
+            <span class="menu-label" [class.visible]="isSidebarExpanded">Profile</span>
+          </li>
+          <li (click)="onManageJobPostings()">
+            <i class="fa fa-briefcase"></i>
+            <span class="menu-label" [class.visible]="isSidebarExpanded">Manage Job Postings</span>
+          </li>
+          <li (click)="onViewApplicants()">
+            <i class="fa fa-users"></i>
+            <span class="menu-label" [class.visible]="isSidebarExpanded">View Applicants</span>
+          </li>
+          <li (click)="onLogout()">
+            <i class="fa fa-sign-out-alt"></i>
+            <span class="menu-label" [class.visible]="isSidebarExpanded">Log Out</span>
+          </li>
+        </ul>
+      </nav>
+  
+      <!-- Main Content & Footer -->
+      <div class="content-area">
+        <main class="main-content">
+          <router-outlet></router-outlet>
+        </main>
+  
+        <footer class="footer">
+          Footer © 2025
+        </footer>
+      </div>
+    </div>
+  </div>
+  
