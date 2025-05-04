@@ -1,53 +1,45 @@
-<!--<div class="p-4">
-    <h2 class="text-2xl font-bold mb-4">My Assistantship Postings</h2>
-  
-    <div *ngFor="let post of postings" class="bg-white shadow-md rounded-xl p-4 mb-4 flex justify-between items-center">
-      <div>
-        <p class="text-lg font-semibold">Title: {{ post.title }}</p>
-        <p class="text-gray-600">Domain: {{ post.domain }}</p>
-        <p class="text-gray-600">Deadline: {{ post.deadline }}</p>
-      </div>
-  
-      <div class="flex items-center gap-4">
-        <button class="bg-blue-100 text-blue-800 rounded-full px-4 py-2 font-semibold">
-          {{ post.applicants }} Applicants
-        </button>
-  
-        <button class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
-          View
-        </button>
-      </div>
-    </div>
-  </div>-->
-
-<!--
 <div class="dashboard-container">
- 
+  <!-- Header -->
   <header class="header">
-    
-    <button class="hamburger" (click)="toggleSidebar()" *ngIf="!isSidebarOpen">
-      &#9776;
+    <!-- Toggle button: always visible.
+         It shows a hamburger icon when collapsed and a collapse (arrow) icon when expanded. 
+         Both mouseenter and mouseleave on this button trigger expansion/collapse. -->
+    <button class="sidebar-toggle" (mouseenter)="openSidebar()" (mouseleave)="closeSidebar()">
+      <i *ngIf="!isSidebarExpanded" class="fa fa-bars"></i>
+      <i *ngIf="isSidebarExpanded" class="fa fa-arrow-left"></i>
     </button>
     <div class="welcome-message">
       Welcome, {{ professorName }}
     </div>
   </header>
 
-
+  <!-- Main layout container -->
   <div class="content-container">
- 
-    <nav class="sidebar" *ngIf="isSidebarOpen">
-      
-      <button class="close-btn" (click)="toggleSidebar()">X</button>
+    <!-- Sidebar: always present.
+         It expands on mouseenter and collapses on mouseleave.
+         In collapsed mode, only the icons are shown; in expanded mode, icon and text appear. -->
+    <nav class="sidebar" (mouseenter)="openSidebar()" (mouseleave)="closeSidebar()" [class.expanded]="isSidebarExpanded">
       <ul>
-        <li><a routerLink="/profile">Profile</a></li>
-        <li><a routerLink="/job-postings">Manage Job Postings</a></li>
-        <li><a routerLink="/view-applicants">View Applicants</a></li>
-        <li><a (click)="logout()">Log Out</a></li>
+        <li (click)="onProfile()">
+          <i class="fa fa-user"></i>
+          <span class="menu-label" [class.visible]="isSidebarExpanded">Profile</span>
+        </li>
+        <li (click)="onManageJobPostings()">
+          <i class="fa fa-briefcase"></i>
+          <span class="menu-label" [class.visible]="isSidebarExpanded">Manage Job Postings</span>
+        </li>
+        <li (click)="onViewApplicants()">
+          <i class="fa fa-users"></i>
+          <span class="menu-label" [class.visible]="isSidebarExpanded">View Applicants</span>
+        </li>
+        <li (click)="onLogout()">
+          <i class="fa fa-sign-out-alt"></i>
+          <span class="menu-label" [class.visible]="isSidebarExpanded">Log Out</span>
+        </li>
       </ul>
     </nav>
 
-   
+    <!-- Main content area: existing postings code remains unchanged -->
     <div class="main-content">
       <div class="p-4">
         <h2 class="text-2xl font-bold mb-4">My Assistantship Postings</h2>
@@ -64,62 +56,6 @@
               {{ post.applicants }} Applicants
             </button>
   
-            <button class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
-              View
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
--->
-<div class="dashboard-container">
-  <!-- Header -->
-  <header class="header">
-    <!-- Hamburger is visible only when the sidebar is collapsed -->
-    <button class="hamburger" *ngIf="!isSidebarExpanded" (mouseenter)="openSidebar()">
-      &#9776;
-    </button>
-    <div class="welcome-message">
-      Welcome, {{ professorName }}
-    </div>
-  </header>
-
-  <!-- Main layout container -->
-  <div class="content-container">
-    <!-- Sidebar: Always present but its content (the <ul>) is rendered only when expanded.
-         It opens on mouseenter and closes on mouseleave. -->
-    <nav class="sidebar"
-         (mouseenter)="openSidebar()"
-         (mouseleave)="closeSidebar()"
-         [class.expanded]="isSidebarExpanded">
-      <ul *ngIf="isSidebarExpanded">
-        <li><a (click)="onProfile()">Profile</a></li>
-        <li><a (click)="onManageJobPostings()">Manage Job Postings</a></li>
-        <li><a (click)="onViewApplicants()">View Applicants</a></li>
-        <li><a (click)="onLogout()">Log Out</a></li>
-      </ul>
-    </nav>
-
-    <!-- Main content area: existing postings code remains unchanged -->
-    <div class="main-content">
-      <div class="p-4">
-        <h2 class="text-2xl font-bold mb-4">My Assistantship Postings</h2>
-
-        <div *ngFor="let post of postings" 
-             class="bg-white shadow-md rounded-xl p-4 mb-4 flex justify-between items-center">
-          <div>
-            <p class="text-lg font-semibold">Title: {{ post.title }}</p>
-            <p class="text-gray-600">Domain: {{ post.domain }}</p>
-            <p class="text-gray-600">Deadline: {{ post.deadline }}</p>
-          </div>
-
-          <div class="flex items-center gap-4">
-            <button class="bg-blue-100 text-blue-800 rounded-full px-4 py-2 font-semibold">
-              {{ post.applicants }} Applicants
-            </button>
-
             <button class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
               View
             </button>
