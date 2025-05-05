@@ -9,6 +9,12 @@ import { ViewApplicantsComponent } from './view-applicants/view-applicants.compo
 export const routes: Routes = [
   // 🔒 Public (non-layout) routes
   {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  
+  {
     path: 'login',
     component: LoginComponent
   },
