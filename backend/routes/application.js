@@ -149,4 +149,60 @@ router.get('/student', auth, async (req, res) => {
   res.json(applications);
 });
 
+// Student views a specific application
+router.get('/:id/student', auth, async (req, res) => {
+  if (req.user.role !== 'student') {
+    return res.status(403).json({ msg: 'Only students can view this' });
+  }
+
+  try {
+    const application = await Application.findById(req.params.id)
+      .populate('assistantship', 'title domain endTime');
+
+    if (!application) {
+      return res.status(404).json({ msg: 'Application not found' });
+    }
+
+    if (application.student.toString() !== req.user.id) {
+      return res.status(403).json({ msg: 'You do not own this application' });
+    }
+
+    res.json({
+      assistantship: application.assistantship,
+      motivation: application.motivation,
+      resumePath: application.resumePath,
+      status: application.status,
+      submittedAt: application.createdAt
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// Student deletes their application
+router.delete('/:id', auth, async (req, res) => {
+  if (req.user.role !== 'student') {
+    return res.status(403).json({ msg: 'Only students can delete applications' });
+  }
+
+  try {
+    const application = await Application.findById(req.params.id);
+
+    if (!application) {
+      return res.status(404).json({ msg: 'Application not found' });
+    }
+
+    if (application.student.toString() !== req.user.id) {
+      return res.status(403).json({ msg: 'You do not own this application' });
+    }
+
+    await application.deleteOne();
+    res.json({ msg: 'Application withdrawn successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
 module.exports = router;

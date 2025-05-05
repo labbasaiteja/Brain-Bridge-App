@@ -189,11 +189,89 @@ router.get('/search', auth, async (req, res) => {
   });
 });
 
-
 // Get all assistantships
 router.get('/', async (req, res) => {
   const assistantships = await Assistantship.find().populate('professor', 'name email');
   res.json(assistantships);
+});
+
+// Student searches for assistantships by title or domain
+router.get('/search/student', auth, async (req, res) => {
+  if (req.user.role !== 'student') {
+    return res.status(403).json({ msg: 'Only students can search assistantships' });
+  }
+
+  const { query = '', page = 1, limit = 5 } = req.query;
+  const skip = (page - 1) * limit;
+
+  const searchRegex = new RegExp(query, 'i'); // case-insensitive
+
+  const filter = {
+    $or: [
+      { title: searchRegex },
+      { domain: searchRegex }
+    ]
+  };
+
+  const total = await Assistantship.countDocuments(filter);
+  const results = await Assistantship.find(filter)
+    .select('title domain endTime createdAt status')
+    .skip(skip)
+    .limit(parseInt(limit))
+    .populate('professor', 'name email')
+    .lean();
+
+  res.json({
+    total,
+    page: parseInt(page),
+    limit: parseInt(limit),
+    totalPages: Math.ceil(total / limit),
+    data: results
+  });
+});
+
+// Student views a single assistantship
+router.get('/:id/student', auth, async (req, res) => {
+  if (req.user.role !== 'student') {
+    return res.status(403).json({ msg: 'Only students can view assistantship details' });
+  }
+
+  try {
+    const assistantship = await Assistantship.findById(req.params.id).populate('professor', 'name email');
+    if (!assistantship) return res.status(404).json({ msg: 'Assistantship not found' });
+
+    res.json(assistantship);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// Student views all assistantships
+router.get('/student', auth, async (req, res) => {
+  if (req.user.role !== 'student') {
+    return res.status(403).json({ msg: 'Only students can view all assistantships' });
+  }
+
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const skip = (page - 1) * limit;
+
+  const total = await Assistantship.countDocuments();
+  const data = await Assistantship.find()
+    .select('title domain endTime createdAt status')
+    .skip(skip)
+    .limit(limit)
+    .populate('professor', 'name email')
+    .lean();
+
+  res.json({
+    total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit),
+    data
+  });
 });
 
 module.exports = router;
