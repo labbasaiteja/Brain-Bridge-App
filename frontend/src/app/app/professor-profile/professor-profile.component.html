@@ -1,0 +1,60 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="welcome-message">
+      Welcome, {{ professor.name }}
+    </div>
+  </header>
+
+  <!-- Main layout container -->
+  <div class="content-container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a routerLink="/dashboard" class="back-link">← Back</a>
+      <ul>
+        <li><a routerLink="/professor-profile">Profile</a></li>
+        <li><a routerLink="/job-postings">Manage Job Postings</a></li>
+        <li><a routerLink="/view-applicants">View Applicants</a></li>
+        <li><a (click)="logout()">Log Out</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main content area (profile in correct position) -->
+    <main class="main-content">
+      <h2 class="page-title">Profile</h2>
+
+      <div class="profile-wrapper">
+        <div class="profile-card">
+          <div class="edit-icon" (click)="toggleEdit()" title="Edit">✏️</div>
+
+          <img [src]="professor.imageUrl" alt="Avatar" class="avatar" />
+
+          <h2 class="professor-name">{{ professor.name }}</h2>
+          <p class="subtitle">Professor</p>
+
+          <div class="form">
+            <label>Name:</label>
+            <ng-container *ngIf="isEditMode; else nameView">
+              <input [(ngModel)]="professor.name" />
+            </ng-container>
+            <ng-template #nameView><p><strong>{{ professor.name }}</strong></p></ng-template>
+
+            <label>Email:</label>
+            <ng-container *ngIf="isEditMode; else emailView">
+              <input [(ngModel)]="professor.email" />
+            </ng-container>
+            <ng-template #emailView><p><strong>{{ professor.email }}</strong></p></ng-template>
+
+            <label>Major:</label>
+            <ng-container *ngIf="isEditMode; else majorView">
+              <input [(ngModel)]="professor.major" />
+            </ng-container>
+            <ng-template #majorView><p><strong>{{ professor.major }}</strong></p></ng-template>
+
+            <button *ngIf="isEditMode" (click)="submitChanges()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
