@@ -337,4 +337,203 @@ the id is application id.
 }
 ```
 
+# 🎓 TA Application – Student API Documentation
+
+> 🔐 All endpoints below **require authentication**  
+Add the following HTTP header to every request:
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+---
+
+## ✅ Authentication (Shared)
+
+### POST `/api/auth/register`  
+Register a new student user.
+
+**Request Body**
+```json
+{
+  "name": "Alice",
+  "email": "alice@student.edu",
+  "password": "alice123",
+  "role": "student"
+}
+```
+
+**Response**
+```json
+{
+  "token": "<JWT_TOKEN>"
+}
+```
+
+---
+
+### POST `/api/auth/login`  
+Login as a student and get JWT token.
+
+**Request Body**
+```json
+{
+  "email": "alice@student.edu",
+  "password": "alice123"
+}
+```
+
+**Response**
+```json
+{
+  "token": "<JWT_TOKEN>"
+}
+```
+
+---
+
+## 📄 Assistantship Endpoints (Student)
+
+### GET `/api/assistantships/student`  
+Get all available assistantships.
+
+**Query Parameters (optional)**:
+- `page`: Page number (default 1)
+- `limit`: Results per page (default 5)
+
+**Response**
+```json
+{
+  "total": 10,
+  "page": 1,
+  "limit": 5,
+  "data": [
+    {
+      "_id": "...",
+      "title": "...",
+      "domain": "...",
+      "endTime": "...",
+      "status": "open"
+    }
+  ]
+}
+```
+
+---
+
+### GET `/api/assistantships/:id/student`  
+Get details of a specific assistantship.
+
+**URL Parameter**
+- `:id` – Assistantship ID
+
+**Response**
+```json
+{
+  "_id": "...",
+  "title": "RA for Operating Systems",
+  "description": "...",
+  "domain": "...",
+  "endTime": "...",
+  "status": "open"
+}
+```
+
+---
+
+### GET `/api/assistantships/search/student?query=<text>`  
+Search assistantships by title or domain.
+
+**Query Parameters**:
+- `query`: Search keyword
+- `page`, `limit`: (optional)
+
+---
+
+## 📝 Application Endpoints (Student)
+
+### POST `/api/applications/`  
+Apply to an assistantship.
+
+**Form Data** (Content-Type: multipart/form-data)
+- `assistantshipId`: Assistantship ID (string)
+- `motivation`: Application motivation (string)
+- `resume`: PDF file (file)
+
+**Response**
+```json
+{
+  "assistantship": "<id>",
+  "student": "<id>",
+  "motivation": "...",
+  "resumePath": "...",
+  "status": "pending"
+}
+```
+
+---
+
+### GET `/api/applications/student`  
+View all applications submitted by the student.
+
+**Response**
+```json
+[
+  {
+    "_id": "...",
+    "assistantship": {
+      "title": "...",
+      "domain": "..."
+    },
+    "status": "pending",
+    "submittedAt": "..."
+  }
+]
+```
+
+---
+
+### GET `/api/applications/:id/student`  
+View a single application submitted by the student.
+
+**URL Parameter**
+- `:id` – Application ID
+
+**Response**
+```json
+{
+  "assistantship": {
+    "title": "...",
+    "domain": "...",
+    "endTime": "..."
+  },
+  "motivation": "...",
+  "resumePath": "...",
+  "status": "pending",
+  "submittedAt": "..."
+}
+```
+
+---
+
+### DELETE `/api/applications/:id`  
+Withdraw (delete) your own application.
+
+**URL Parameter**
+- `:id` – Application ID
+
+**Response**
+```json
+{
+  "msg": "Application withdrawn successfully"
+}
+```
+
+---
+
+## ✅ Notes
+- All protected routes require a valid JWT token in the Authorization header.
+- Resume upload must be a `.pdf` file under 5MB.
+- Each student can only apply to a specific assistantship once.
+
 ---
