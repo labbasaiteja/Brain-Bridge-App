@@ -1,58 +1,56 @@
 <div class="dashboard-container">
   <!-- Header -->
   <header class="header">
+    <!-- Hamburger button is visible when the sidebar is closed -->
+    <button class="hamburger" (click)="toggleSidebar()" *ngIf="!isSidebarOpen">
+      &#9776;
+    </button>
     <div class="welcome-message">
-      Welcome, {{ professor.name }}
+      Welcome
     </div>
   </header>
+ <!-- Main layout container -->
+ <div class="content-container">
+  <!-- Sidebar navigation: only shown when open -->
+  <nav class="sidebar" *ngIf="isSidebarOpen">
+    <!-- Close button inside sidebar -->
+    <button class="close-btn" (click)="toggleSidebar()">&#8592;Back</button>
+    <ul>
+      <li><a routerLink="/profile">Profile</a></li>
+      <li><a routerLink="/job-postings">Manage Job Postings</a></li>
+      <li><a routerLink="/view-applicants">View Applicants</a></li>
+      <li><a (click)="logout()">Log Out</a></li>
+    </ul>
+  </nav>
 
-  <!-- Main layout container -->
-  <div class="content-container">
-    <!-- Sidebar -->
-    <nav class="sidebar">
-      <a routerLink="/dashboard" class="back-link">← Back</a>
-      <ul>
-        <li><a routerLink="/professor-profile">Profile</a></li>
-        <li><a routerLink="/job-postings">Manage Job Postings</a></li>
-        <li><a routerLink="/view-applicants">View Applicants</a></li>
-        <li><a (click)="logout()">Log Out</a></li>
-      </ul>
-    </nav>
-
-    <!-- Main content area (profile in correct position) -->
+    <!-- Main Content -->
     <main class="main-content">
-      <h2 class="page-title">Profile</h2>
+      <h2>Profile</h2>
 
-      <div class="profile-wrapper">
-        <div class="profile-card">
-          <div class="edit-icon" (click)="toggleEdit()" title="Edit">✏️</div>
+      <div class="profile-card">
+        <div class="edit-icon" (click)="toggleEdit()" title="Edit">
+          ✏️
+        </div>
 
-          <img [src]="professor.imageUrl" alt="Avatar" class="avatar" />
+        <img [src]="professor.imageUrl" alt="Avatar" class="avatar" />
 
-          <h2 class="professor-name">{{ professor.name }}</h2>
-          <p class="subtitle">Professor</p>
+        <h2 class="professor-name">{{ professor.name }}</h2>
+        <p class="subtitle">Professor</p>
 
-          <div class="form">
-            <label>Name:</label>
-            <ng-container *ngIf="isEditMode; else nameView">
-              <input [(ngModel)]="professor.name" />
-            </ng-container>
-            <ng-template #nameView><p><strong>{{ professor.name }}</strong></p></ng-template>
+        <div class="form">
+          <label>Name:</label>
+          <input *ngIf="isEditMode" [(ngModel)]="professor.name" />
+          <p *ngIf="!isEditMode"><strong>{{ professor.name }}</strong></p>
 
-            <label>Email:</label>
-            <ng-container *ngIf="isEditMode; else emailView">
-              <input [(ngModel)]="professor.email" />
-            </ng-container>
-            <ng-template #emailView><p><strong>{{ professor.email }}</strong></p></ng-template>
+          <label>Email:</label>
+          <input *ngIf="isEditMode" [(ngModel)]="professor.email" />
+          <p *ngIf="!isEditMode"><strong>{{ professor.email }}</strong></p>
 
-            <label>Major:</label>
-            <ng-container *ngIf="isEditMode; else majorView">
-              <input [(ngModel)]="professor.major" />
-            </ng-container>
-            <ng-template #majorView><p><strong>{{ professor.major }}</strong></p></ng-template>
+          <label>Major:</label>
+          <input *ngIf="isEditMode" [(ngModel)]="professor.major" />
+          <p *ngIf="!isEditMode"><strong>{{ professor.major }}</strong></p>
 
-            <button *ngIf="isEditMode" (click)="submitChanges()">Submit</button>
-          </div>
+          <button *ngIf="isEditMode" (click)="submitChanges()">Submit</button>
         </div>
       </div>
     </main>
