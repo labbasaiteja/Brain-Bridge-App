@@ -24,4 +24,4 @@ app.use('/api/user', userRoutes);
 
 app.use('/uploads', express.static('uploads'));
 
-app.listen(4898, () => console.log('Server running on port 4898'));
+app.listen(5000, () => console.log('Server running on port 5000'));
