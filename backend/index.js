@@ -15,10 +15,12 @@ mongoose.connect(process.env.MONGODB_URI)
 const authRoutes = require('./routes/auth');
 const assistantshipRoutes = require('./routes/assistantship');
 const applicationRoutes = require('./routes/application');
+const userRoutes = require('./routes/user');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/assistantships', assistantshipRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/user', userRoutes);
 
 app.use('/uploads', express.static('uploads'));
 

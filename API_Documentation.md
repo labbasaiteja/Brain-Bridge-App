@@ -29,6 +29,8 @@ Authorization: Bearer <JWT_TOKEN>
 | POST   | `/api/applications/`                           | Apply to assistantship (PDF upload)                     | Student      |
 | GET    | `/api/applications/:id/professor`              | Professor views single application                      | Professor    |
 | PUT    | `/api/applications/:id/status`                 | Accept or reject an application                         | Professor    |
+| GET    | `/api/user/`                                   | Get user's profile                                      | User         |
+| PUT    | `/api/user/`                                   | Update user's infomation                                | User         |
 | GET    | `/api/applications/:id/student`                | Student can view single application                     | Student   Unfinished  |
 | DELETE | `/api/applications/:id`                        | Student can withdraw his application                    | Student   Unfinished  |
 | GET    | `/api/applications/`                           | Student can view all application applied by him         | Student   Unfinished  |
