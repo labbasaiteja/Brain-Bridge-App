@@ -7,25 +7,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { ViewApplicantsComponent } from './view-applicants/view-applicants.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: LayoutComponent,
-    children: [
-      {
-        path: '',
-        component: DashboardComponent
-      },
-      {
-        path: 'dashboard',
-        component: DashboardComponent
-      },
-      { path: 'view-applicants', component: ViewApplicantsComponent }
-
-      // You can add other children routes like 'view-applicants' here
-    ],
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
+  // 🔒 Public (non-layout) routes
   {
     path: 'login',
     component: LoginComponent
@@ -34,12 +16,29 @@ export const routes: Routes = [
     path: 'register',
     component: RegisterComponent
   },
+
+  // 🧭 Main layout routes (with sidebar/header etc.)
   {
-    path: 'dashboard',
-    component: DashboardComponent
-  },
-  {
-    path: 'professor-profile',
-    component: ProfessorProfileComponent
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+      {
+        path: 'view-applicants',
+        component: ViewApplicantsComponent
+      },
+      {
+        path: 'professor-profile',
+        component: ProfessorProfileComponent
+      }
+    ]
   }
 ];
