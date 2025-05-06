@@ -5,6 +5,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const asyncHandler = require('../middleware/asyncHandler');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -28,11 +29,14 @@ const upload = multer({
 
 
 // Student applies to assistantship
-router.post('/', auth, upload.single('resume'), async (req, res) => {
+router.post('/', auth, upload.single('resume'), asyncHandler(async (req, res) => {
   if (req.user.role !== 'student')
     return res.status(403).json({ msg: 'Only students can apply' });
 
   const { assistantshipId, motivation } = req.body;
+  if (!assistantshipId || !motivation || !req.file) {
+    return res.status(400).json({ msg: 'Invalid or missing fields' });  
+  }
   // Check if assistantship exists
   const assistantship = await Assistantship.findById(assistantshipId);
   if (!assistantship)
@@ -56,55 +60,53 @@ router.post('/', auth, upload.single('resume'), async (req, res) => {
 
   await application.save();
   res.status(201).json(application);
-});
+}));
 
 // Professor views a specific application
-router.get('/:id/professor', auth, async (req, res) => {
+router.get('/:id/professor', auth, asyncHandler(async (req, res) => {
   if (req.user.role !== 'professor') {
     return res.status(403).json({ msg: 'Only professors can view applications' });
   }
 
-  try {
-    const application = await Application.findById(req.params.id)
-      .populate('student', 'name email')
-      .populate('assistantship');
+  const application = await Application.findById(req.params.id)
+    .populate('student', 'name email')
+    .populate('assistantship');
 
-    if (!application)
-      return res.status(404).json({ msg: 'Application not found' });
+  if (!application)
+    return res.status(404).json({ msg: 'Application not found' });
 
-    // Check ownership
-    if (application.assistantship.professor.toString() !== req.user.id) {
-      return res.status(403).json({ msg: 'You do not own this assistantship' });
-    }
-
-    res.json({
-      student: {
-        name: application.student.name,
-        email: application.student.email
-      },
-      assistantship: {
-        title: application.assistantship.title,
-        domain: application.assistantship.domain
-      },
-      motivation: application.motivation,
-      resumePath: application.resumePath,
-      status: application.status,
-      submittedAt: application.createdAt
-    });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'Server error' });
+  // Check ownership
+  if (application.assistantship.professor.toString() !== req.user.id) {
+    return res.status(403).json({ msg: 'You do not own this assistantship' });
   }
-});
+
+  res.json({
+    student: {
+      name: application.student.name,
+      email: application.student.email
+    },
+    assistantship: {
+      title: application.assistantship.title,
+      domain: application.assistantship.domain
+    },
+    motivation: application.motivation,
+    resumePath: application.resumePath,
+    status: application.status,
+    submittedAt: application.createdAt
+  });
+
+}));
 
 // Professor updates application status
-router.put('/:id/status', auth, async (req, res) => {
+router.put('/:id/status', auth, asyncHandler(async (req, res) => {
   if (req.user.role !== 'professor') {
     return res.status(403).json({ msg: 'Only professors can update application status' });
   }
 
   const { status } = req.body;
+  if (!status) {
+    return res.status(400).json({ msg: 'Status is required' });
+  }
 
   if (!['accepted', 'rejected'].includes(status)) {
     return res.status(400).json({ msg: 'Invalid status value' });
@@ -124,11 +126,11 @@ router.put('/:id/status', auth, async (req, res) => {
   await application.save();
 
   res.json({ msg: `Application ${status}`, application });
-});
+}));
 
 
 // Professor views applications for their assistantships
-router.get('/professor', auth, async (req, res) => {
+router.get('/professor', auth, asyncHandler(async (req, res) => {
   if (req.user.role !== 'professor')
     return res.status(403).json({ msg: 'Only professors can view this' });
 
@@ -137,72 +139,64 @@ router.get('/professor', auth, async (req, res) => {
     .populate('student', 'name email')
     .populate('assistantship', 'title');
   res.json(applications);
-});
+}));
 
 // Student views their applications
-router.get('/student', auth, async (req, res) => {
+router.get('/student', auth, asyncHandler(async (req, res) => {
   if (req.user.role !== 'student')
     return res.status(403).json({ msg: 'Only students can view this' });
 
   const applications = await Application.find({ student: req.user.id })
     .populate('assistantship', 'title');
   res.json(applications);
-});
+}));
 
 // Student views a specific application
-router.get('/:id/student', auth, async (req, res) => {
+router.get('/:id/student', auth, asyncHandler(async (req, res) => {
   if (req.user.role !== 'student') {
     return res.status(403).json({ msg: 'Only students can view this' });
   }
 
-  try {
-    const application = await Application.findById(req.params.id)
-      .populate('assistantship', 'title domain endTime');
+  const application = await Application.findById(req.params.id)
+    .populate('assistantship', 'title domain endTime');
 
-    if (!application) {
-      return res.status(404).json({ msg: 'Application not found' });
-    }
-
-    if (application.student.toString() !== req.user.id) {
-      return res.status(403).json({ msg: 'You do not own this application' });
-    }
-
-    res.json({
-      assistantship: application.assistantship,
-      motivation: application.motivation,
-      resumePath: application.resumePath,
-      status: application.status,
-      submittedAt: application.createdAt
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'Server error' });
+  if (!application) {
+    return res.status(404).json({ msg: 'Application not found' });
   }
-});
+
+  if (application.student.toString() !== req.user.id) {
+    return res.status(403).json({ msg: 'You do not own this application' });
+  }
+
+  res.json({
+    assistantship: application.assistantship,
+    motivation: application.motivation,
+    resumePath: application.resumePath,
+    status: application.status,
+    submittedAt: application.createdAt
+  });
+
+}));
 
 // Student deletes their application
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', auth, asyncHandler(async (req, res) => {
   if (req.user.role !== 'student') {
     return res.status(403).json({ msg: 'Only students can delete applications' });
   }
 
-  try {
-    const application = await Application.findById(req.params.id);
+  const application = await Application.findById(req.params.id);
 
-    if (!application) {
-      return res.status(404).json({ msg: 'Application not found' });
-    }
-
-    if (application.student.toString() !== req.user.id) {
-      return res.status(403).json({ msg: 'You do not own this application' });
-    }
-
-    await application.deleteOne();
-    res.json({ msg: 'Application withdrawn successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'Server error' });
+  if (!application) {
+    return res.status(404).json({ msg: 'Application not found' });
   }
-});
+
+  if (application.student.toString() !== req.user.id) {
+    return res.status(403).json({ msg: 'You do not own this application' });
+  }
+
+  await application.deleteOne();
+  res.json({ msg: 'Application withdrawn successfully' });
+
+}));
 
 module.exports = router;
