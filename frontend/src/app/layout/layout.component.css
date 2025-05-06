@@ -10,6 +10,7 @@
     padding: 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   
   .sidebar-toggle {
@@ -107,5 +108,29 @@
     text-align: center;
     font-size: 0.9rem;
     color: #666;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-logo {
+    height: 50px;
+    width: auto;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0px; /* space between text and logo */
+  }
+
+  .header-text {
+    font-size: 1.2 rem;
+    font-weight: 550; /* Adjust between 400 (normal) and 600 (semi-bold) as needed */
+    color: white;
+    font-family: 'Georgia';
+    letter-spacing: 1px;
   }
   

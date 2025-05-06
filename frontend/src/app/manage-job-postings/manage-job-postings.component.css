@@ -1,0 +1,107 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f4f6f9;
+  }
+  
+  .header {
+    background-color: #283593;
+    color: white;
+    padding: 1.2rem;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0rem;
+   
+  }
+  
+  .job-form {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s;
+  }
+  
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #3949ab;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+  }
+  
+  button {
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+  }
+  
+  .submit-btn {
+    background-color: #5b6ff2;
+    color: white;
+  }
+  
+  .submit-btn:hover {
+    background-color: #303f9f;
+  }
+  
+  /* .edit-btn {
+    background-color: #f3e353;
+    color: white;
+  }
+  
+  .edit-btn:hover {
+    background-color: #fb8c00;
+  }
+   */
+   .delete-btn {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+  }
+  
+  .delete-btn:hover {
+    background-color: #f0f0f0; /* optional subtle hover effect */
+  }
+  

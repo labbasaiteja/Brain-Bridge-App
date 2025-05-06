@@ -1,0 +1,102 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content-container {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.main-content {
+  flex: 1;
+  padding: 3rem;
+  background-color: #f7f8fc;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Profile card */
+.profile-card {
+  background-color: #d4e2f4;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.avatar-icon {
+  font-size: 90px;
+  color: #3949ab;
+  margin-bottom: 1rem;
+}
+
+.professor-name {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.form {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 25px;
+}
+
+
+.field-row label {
+  flex: 1;
+  font-weight: 600;
+  width: 100px;
+  text-align: right;
+  margin-right: -10px;
+  margin-left: -75px; 
+}
+
+.field-row input,
+.field-row p {
+  flex: 2;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+.field-row p {
+  margin: 0;
+  background: none;
+  border: none;
+}
+
+button {
+  margin-top: 1rem;
+  background-color: #3949ab;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #303f9f;
+}
