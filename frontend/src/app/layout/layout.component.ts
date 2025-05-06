@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule  } from '@angular/router'; 
+import { RouterModule  ,Router} from '@angular/router'; 
 
 @Component({
   selector: 'app-layout',
@@ -12,7 +12,8 @@ import { RouterModule  } from '@angular/router';
 export class LayoutComponent {
   isSidebarExpanded = false;
   professorName = "Professor John Doe";
-
+  
+  constructor(private router: Router) {}
   openSidebar() {
     this.isSidebarExpanded = true;
   }
@@ -33,7 +34,21 @@ export class LayoutComponent {
     console.log("View Applicants clicked");
   }
 
-  onLogout() {
-    console.log("Logout clicked");
-  }
+  showLogoutModal = false;
+
+onLogout() {
+  this.showLogoutModal = true;
 }
+
+confirmLogout() {
+  localStorage.removeItem('token');
+  this.router.navigate(['/login']);
+  this.showLogoutModal = false;
+}
+
+cancelLogout() {
+  this.showLogoutModal = false;
+}
+    
+  }
+

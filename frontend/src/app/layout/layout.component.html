@@ -46,10 +46,22 @@
             <i class="fa fa-users"></i>
             <span class="menu-label" [class.visible]="isSidebarExpanded">View Applicants</span>
           </li>          
-          <li (click)="onLogout()">
+          <li (click)="showLogoutModal = true">
             <i class="fa fa-sign-out-alt"></i>
             <span class="menu-label" [class.visible]="isSidebarExpanded">Log Out</span>
           </li>
+          
+          <!-- Logout Confirmation Modal -->
+          <div *ngIf="showLogoutModal" class="modal-overlay">
+            <div class="modal-box">
+              <p>Are you sure you want to log out?</p>
+              <div class="modal-buttons">
+                <button class="modal-button" (click)="confirmLogout()">Yes</button>
+                <button class="modal-button" (click)="cancelLogout()">Cancel</button>
+              </div>
+            </div>
+          </div>
+          
         </ul>
       </nav>
   
