@@ -348,50 +348,6 @@ Authorization: Bearer <JWT_TOKEN>
 
 ---
 
-## ✅ Authentication (Shared)
-
-### POST `/api/auth/register`  
-Register a new student user.
-
-**Request Body**
-```json
-{
-  "name": "Alice",
-  "email": "alice@student.edu",
-  "password": "alice123",
-  "role": "student"
-}
-```
-
-**Response**
-```json
-{
-  "token": "<JWT_TOKEN>"
-}
-```
-
----
-
-### POST `/api/auth/login`  
-Login as a student and get JWT token.
-
-**Request Body**
-```json
-{
-  "email": "alice@student.edu",
-  "password": "alice123"
-}
-```
-
-**Response**
-```json
-{
-  "token": "<JWT_TOKEN>"
-}
-```
-
----
-
 ## 📄 Assistantship Endpoints (Student)
 
 ### GET `/api/assistantships/student`  
@@ -452,26 +408,6 @@ Search assistantships by title or domain.
 
 ## 📝 Application Endpoints (Student)
 
-### POST `/api/applications/`  
-Apply to an assistantship.
-
-**Form Data** (Content-Type: multipart/form-data)
-- `assistantshipId`: Assistantship ID (string)
-- `motivation`: Application motivation (string)
-- `resume`: PDF file (file)
-
-**Response**
-```json
-{
-  "assistantship": "<id>",
-  "student": "<id>",
-  "motivation": "...",
-  "resumePath": "...",
-  "status": "pending"
-}
-```
-
----
 
 ### GET `/api/applications/student`  
 View all applications submitted by the student.
