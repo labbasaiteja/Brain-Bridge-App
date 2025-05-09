@@ -1,0 +1,37 @@
+<div class="dashboard-container">
+    <!-- Main layout container -->
+    <div class="content-container">
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="profile-card">
+          <i class="fas fa-user-circle avatar-icon"></i>
+  
+          <h2 class="student-name">{{ student.name }}</h2>
+          <p class="subtitle">Student</p>
+  
+          <div class="form">
+            <div class="field-row">
+              <label>Name:</label>
+              <input *ngIf="isEditMode" [(ngModel)]="student.name" />
+              <p *ngIf="!isEditMode">{{ student.name }}</p>
+            </div>
+  
+            <div class="field-row">
+              <label>Email:</label>
+              <input *ngIf="isEditMode" [(ngModel)]="student.email" />
+              <p *ngIf="!isEditMode">{{ student.email }}</p>
+            </div>
+  
+            <div class="field-row">
+              <label>Major:</label>
+              <input *ngIf="isEditMode" [(ngModel)]="student.major" />
+              <p *ngIf="!isEditMode">{{ student.major }}</p>
+            </div>
+  
+            <button *ngIf="isEditMode" (click)="submitChanges()">Submit</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  
