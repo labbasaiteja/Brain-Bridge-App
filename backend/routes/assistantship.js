@@ -151,6 +151,9 @@ router.delete('/:id', auth, asyncHandler(async (req, res) => {
     return res.status(403).json({ msg: 'You do not own this assistantship' });
   }
 
+  // Delete applications first
+  await Application.deleteMany({ assistantship: assistantship._id });
+
   await Assistantship.deleteOne({ _id: assistantship._id });
   res.json({ msg: 'Assistantship deleted' });
 }));
