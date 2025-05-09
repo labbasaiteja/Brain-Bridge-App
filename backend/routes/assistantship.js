@@ -5,6 +5,8 @@ const auth = require('../middleware/auth');
 const User = require('../models/user');
 const asyncHandler = require('../middleware/asyncHandler');
 const router = express.Router();
+const path = require('path');
+const fs = require('fs');
 
 // Professor posts assistantship
 router.post('/', auth, asyncHandler(async (req, res) => {
@@ -149,6 +151,18 @@ router.delete('/:id', auth, asyncHandler(async (req, res) => {
 
   if (assistantship.professor.toString() !== req.user.id) {
     return res.status(403).json({ msg: 'You do not own this assistantship' });
+  }
+
+
+   // Delete all related applications and resumes
+  const applications = await Application.find({ assistantship: assistantship._id });
+  for (const app of applications) {
+    if (app.resumePath) {
+      const filePath = path.join(__dirname, '..', app.resumePath);
+      fs.unlink(filePath, err => {
+        if (err) console.warn(`Could not delete resume: ${filePath}`);
+      });
+    }
   }
 
   // Delete applications first

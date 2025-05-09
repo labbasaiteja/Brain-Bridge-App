@@ -24,8 +24,8 @@ router.put('/', auth, asyncHandler(async (req, res) => {
   if (!user) return res.status(404).json({ msg: 'User not found' });
 
   if (name !== undefined) user.name = name;
-  if (email !== undefined) user.bio = email;
-  if (password !== undefined) user.phone = password;
+  if (email !== undefined) user.email = email;
+  if (password !== undefined) user.password = password;
 
   await user.save();
   res.json({ msg: 'Profile updated'});

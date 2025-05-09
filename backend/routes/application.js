@@ -5,6 +5,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const asyncHandler = require('../middleware/asyncHandler');
 
 const storage = multer.diskStorage({
@@ -35,20 +36,42 @@ router.post('/', auth, upload.single('resume'), asyncHandler(async (req, res) =>
 
   const { assistantshipId, motivation } = req.body;
   if (!assistantshipId || !motivation || !req.file) {
+    if (req.file) {
+      const filePath = path.join(__dirname, '..', req.file.path || `uploads/resumes/${req.file.filename}`);
+      fs.unlink(filePath, err => {
+        if (err) console.warn('Failed to delete unused resume:', filePath);
+      });
+    }
     return res.status(400).json({ msg: 'Invalid or missing fields' });  
   }
   // Check if assistantship exists
   const assistantship = await Assistantship.findById(assistantshipId);
-  if (!assistantship)
+  if (!assistantship){
+    if (req.file) {
+      const filePath = path.join(__dirname, '..', req.file.path || `uploads/resumes/${req.file.filename}`);
+      fs.unlink(filePath, err => {
+        if (err) console.warn('Failed to delete unused resume:', filePath);
+      });
+    }
     return res.status(404).json({ msg: 'Assistantship not found' });
+  }
+    
 
   // Check for duplicate application
   const existing = await Application.findOne({
     assistantship: assistantshipId,
     student: req.user.id
   });
-  if (existing)
+  if (existing){
+    if (req.file) {
+      const filePath = path.join(__dirname, '..', req.file.path || `uploads/resumes/${req.file.filename}`);
+      fs.unlink(filePath, err => {
+        if (err) console.warn('Failed to delete unused resume:', filePath);
+      });
+    }
     return res.status(409).json({ msg: 'You have already applied to this assistantship' });
+  }
+    
 
   // Create application
   const application = new Application({
@@ -193,6 +216,11 @@ router.delete('/:id', auth, asyncHandler(async (req, res) => {
   if (application.student.toString() !== req.user.id) {
     return res.status(403).json({ msg: 'You do not own this application' });
   }
+
+  const filePath = path.join(__dirname, '..', application.resumePath);
+  fs.unlink(filePath, (err) => {
+    if (err) console.warn('Error deleting file:',filePath);
+  });
 
   await application.deleteOne();
   res.json({ msg: 'Application withdrawn successfully' });
