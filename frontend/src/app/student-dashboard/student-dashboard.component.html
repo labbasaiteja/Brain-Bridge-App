@@ -1,1 +1,50 @@
-<p>student-dashboard works!</p>
+<div class="p-4">
+  <h2 class="text-2xl font-bold mb-4">My Applications</h2>
+
+  <div *ngFor="let app of applications" class="bg-white shadow-md rounded-xl p-4 mb-4 flex justify-between items-center">
+    <div>
+      <p class="text-lg font-semibold">{{ app.title }}</p>
+      <p class="text-gray-600">Domain: {{ app.domain }}</p>
+      <p class="text-gray-600">Deadline: {{ app.deadline }}</p>
+      <p class="text-sm mt-2">
+        Status:
+        <span [ngClass]="{
+          'text-blue-600': app.status === 'Applied',
+          'text-green-600': app.status === 'Accepted',
+          'text-red-600': app.status === 'Rejected'
+        }">
+          {{ app.status }}
+        </span>
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button class="bg-gray-800 text-white px-3 py-1 rounded hover:bg-gray-700" (click)="openModal(app)">View</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="selectedApplication" class="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" (click)="closeModal()">×</button>
+
+      <!-- Job Info -->
+      <h3 class="text-xl font-bold mb-2">Job Information</h3>
+      <p><strong>Title:</strong> {{ selectedApplication.title }}</p>
+      <p><strong>Domain:</strong> {{ selectedApplication.domain }}</p>
+      <p><strong>Deadline:</strong> {{ selectedApplication.deadline }}</p>
+      <p class="whitespace-pre-line mt-2"><strong>Description:</strong> {{ selectedApplication.description }}</p>
+
+      <hr class="my-4">
+
+      <!-- Student Info -->
+      <h3 class="text-xl font-bold mb-2">Your Application</h3>
+      <p><strong>Motivation:</strong></p>
+      <p class="mb-3">{{ selectedApplication.motivation }}</p>
+
+      <a [href]="selectedApplication.resumeUrl" download class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+        Download Resume
+      </a>
+    </div>
+  </div>
+</div>

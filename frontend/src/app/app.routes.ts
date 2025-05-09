@@ -8,7 +8,6 @@ import { ViewApplicantsComponent } from './view-applicants/view-applicants.compo
 import { ManageJobPostingsComponent } from './manage-job-postings/manage-job-postings.component';
 import { StudentLayoutComponent } from './student-layout/student-layout.component';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
-import { MyApplicationsComponent } from './my-applications/my-applications.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 
@@ -70,10 +69,6 @@ export const routes: Routes = [
       {
         path: 'student-dashboard',
         component: StudentDashboardComponent
-      },
-      {
-        path: 'my-applications',
-        component: MyApplicationsComponent
       },
       {
         path: 'jobs',

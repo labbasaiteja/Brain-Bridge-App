@@ -1,162 +1,197 @@
 .student-layout-root {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .header {
-    background-color: #283593;
-    color: white;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .sidebar-toggle {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.8rem;
-    cursor: pointer;
-    margin-right: 1rem;
-  }
-  
-  .welcome-message {
-    font-size: 1.2rem;
-  }
-  
-  /* Wrapper below header: sidebar + main content side-by-side */
-  .body-container {
-    display: flex;
-    flex: 1;
-    min-height: 0;
-  }
-  
-  /* Sidebar fixed height to 100% of viewport minus header */
-  .sidebar {
-    background-color: #3949ab;
-    color: white;
-    width: 60px;
-    transition: width 0.3s ease;
-    box-sizing: border-box;
-    padding: 1rem 0;
-    overflow: hidden;
-  }
-  
-  .sidebar.expanded {
-    width: 200px;
-    padding: 1rem;
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sidebar li {
-    margin: 1rem 0;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  .sidebar li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 
-  .sidebar li.active {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-  }
-    
-  .sidebar li i {
-    font-size: 1.2rem;
-  }
-  
-  .menu-label {
-    opacity: 0;
-    margin-left: 0;
-    white-space: nowrap;
-    transition: opacity 0.3s ease, margin-left 0.3s ease;
-  }
-  
-  .menu-label.visible {
-    opacity: 1;
-    margin-left: 8px;
-  }
-  
-  /* Main content + footer area */
-  .content-area {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
-  }
-  
-  /* Scrollable main content */
-  .main-content {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  
-  /* Footer only under main content */
-  .footer {
-    background-color: #f0f0f0;
-    padding: 1rem;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #666;
-  }
+.header {
+  background-color: #283593;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .header-left {
-    display: flex;
-    align-items: center;
-  }
-  
-  .header-logo {
-    height: 50px;
-    width: auto;
-  }
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
 
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 0px; /* space between text and logo */
-  }
+.welcome-message {
+  font-size: 1.2rem;
+}
 
-  .header-text {
-    font-size: 1.2 rem;
-    font-weight: 550; /* Adjust between 400 (normal) and 600 (semi-bold) as needed */
-    color: white;
-    font-family: 'Georgia';
-    letter-spacing: 1px;
-  }
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-  }
-  
-  .modal-box {
-    background:whitesmoke;
-    padding: 2rem;
-    border-radius: 12px;
-    text-align: center;
-    color: #333;
+.header-left {
+  display: flex;
+  align-items: center;
+}
 
-  }
-  
-  .modal-button {
-  background-color: #6a8ca8; /* same initial color for both */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo {
+  height: 50px;
+  width: auto;
+}
+
+.header-text {
+  font-size: 1.2rem;
+  font-weight: 550;
+  font-family: Georgia, serif;
+  letter-spacing: 1px;
+}
+
+/* Main body layout */
+.body-container {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #3949ab;
+  color: white;
+  width: 60px;
+  transition: width 0.3s ease;
+  box-sizing: border-box;
+  padding: 1rem 0;
+  overflow: hidden;
+  min-height: calc(100vh - 64px);
+}
+
+.sidebar.expanded {
+  width: 200px;
+  padding: 1rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.sidebar li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar li.active {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.sidebar li i {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar:not(.expanded) {
+  width: 60px;
+  padding-left: 0;
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar:not(.expanded) li {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.sidebar:not(.expanded) li i {
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
+
+.sidebar:not(.expanded) .menu-label {
+  display: none;
+}
+
+.sidebar.expanded li {
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+}
+
+.menu-label {
+  opacity: 0;
+  margin-left: 0;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, margin-left 0.3s ease;
+}
+
+.menu-label.visible {
+  opacity: 1;
+  margin-left: 8px;
+}
+
+/* Content area and footer */
+.content-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.footer {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: whitesmoke;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  color: #333;
+}
+
+.modal-button {
+  background-color: #6a8ca8;
   color: white;
   border: none;
   padding: 0.6rem 1.2rem;
@@ -169,7 +204,5 @@
 }
 
 .modal-button:hover {
-  background-color: #4caf50; /* green on hover */
+  background-color: #4caf50;
 }
-  
-  

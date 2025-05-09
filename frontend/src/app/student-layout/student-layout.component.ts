@@ -1,56 +1,55 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule,Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-student-layout',
   standalone: true,
-  imports: [CommonModule,RouterModule ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './student-layout.component.html',
   styleUrls: ['./student-layout.component.css']
 })
 export class StudentLayoutComponent {
-    isSidebarExpanded = false;
-    studentName = "Mike Ross";
-    
-    constructor(private router: Router) {}
-    openSidebar() {
-      this.isSidebarExpanded = true;
-    }
-  
-    closeSidebar() {
-      this.isSidebarExpanded = false;
-    }
-  
-    onProfile() {
-      console.log("Profile clicked");
-    }
-  
-    onMyApplications() {
-      console.log("My Applications clicked");
-    }
-  
-    onJobs() {
-      console.log("Jobs clicked");
-    }
-  
-    showLogoutModal = false;
-  
+  isSidebarExpanded: boolean = false;
+  showLogoutModal: boolean = false;
+  studentName: string = 'Mike Ross'; // 🔁 Replace with dynamic logic if needed
+
+  constructor(private router: Router) {}
+
+  // Sidebar expand on hover
+  openSidebar() {
+    this.isSidebarExpanded = true;
+  }
+
+  // Sidebar collapse on mouse leave
+  closeSidebar() {
+    this.isSidebarExpanded = false;
+  }
+
+  onDashboard() {
+    this.router.navigate(['/student-dashboard']);
+  }
+
+  onProfile() {
+    this.router.navigate(['/student-profile']);
+  }
+
+  onViewAssistantships() {
+    this.router.navigate(['/view-assistantships']);
+  }
+
   onLogout() {
     this.showLogoutModal = true;
   }
-  
+
   confirmLogout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    localStorage.removeItem('token'); // 🔁 Adjust if you have session handling
     this.showLogoutModal = false;
+    this.router.navigate(['/login']);
   }
-  
+
   cancelLogout() {
     this.showLogoutModal = false;
   }
-      
-
-  
 }
-

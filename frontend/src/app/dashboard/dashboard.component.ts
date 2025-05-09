@@ -73,6 +73,10 @@ handleEscapeKey(event: KeyboardEvent) {
       queryParams: { postingId }
     });
   }
+    
+  
+
+  
 
   // 🔁 Real-time integration logic (replace hardcoded list):
   // ngOnInit(): void {
@@ -92,12 +96,15 @@ closeModal() {
 }
 
 editPosting(posting: Posting) {
-  console.log('Edit clicked for:', posting.title);
-}
+  this.router.navigate(['/manage-job-postings'], {
+    state: { posting }
+    });
+  }
 
 withdrawPosting(posting: Posting) {
-  console.log('Withdraw clicked for:', posting.title);
-}
-
+  this.postings = this.postings.filter(p => p.id !== posting.id);
+  this.closeModal();
+  console.log(`Withdrawn: ${posting.title}`);
+ }
 }
 

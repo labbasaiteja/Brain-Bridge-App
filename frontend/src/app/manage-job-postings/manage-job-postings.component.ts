@@ -1,8 +1,8 @@
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-job-postings',
@@ -12,8 +12,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./manage-job-postings.component.css']
 })
 export class ManageJobPostingsComponent {
-  constructor(private router: Router) {}
-  
   job = {
     title: '',
     description: '',
@@ -21,17 +19,47 @@ export class ManageJobPostingsComponent {
     deadline: ''
   };
 
-  submitJob() {
-    console.log('Submitted:', this.job);
-    alert('Job submitted!');
+  isEditMode = false;
+  showConfirmModal = false;
+  showSuccessMessage = false;
+
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      const nav = this.router.getCurrentNavigation();
+      const state = nav?.extras?.state;
+
+      if (state && state['posting']) {
+        this.isEditMode = true;
+        this.job = { ...state['posting'] };
+      }
+    }
   }
 
-  // editJob() {
-  //   alert('Edit functionality coming soon!');
-  // }
+  confirmSubmit() {
+    this.showConfirmModal = true;
+  }
+
+  cancelSubmit() {
+    this.showConfirmModal = false;
+  }
+
+  onSubmitConfirmed() {
+    this.showConfirmModal = false;
+    this.showSuccessMessage = true;
+
+    // 🔁 For backend integration:
+    // if (this.isEditMode) {
+    //   this.api.updatePosting(this.job).subscribe(...)
+    // } else {
+    //   this.api.createPosting(this.job).subscribe(...)
+    // }
+
+    setTimeout(() => {
+      this.router.navigate(['/dashboard']);
+    }, 3000);
+  }
 
   deleteJob() {
-    //alert('Job deleted!');
     this.router.navigate(['/dashboard']);
   }
 }
