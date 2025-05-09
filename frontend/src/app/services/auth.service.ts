@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:3000/api/auth'; // adjust if your backend is hosted elsewhere
+  private baseUrl = 'http://localhost:5000/api/auth'; // adjust if your backend is hosted elsewhere
 
   constructor(private http: HttpClient) {}
 
@@ -21,4 +21,11 @@ export class AuthService {
   }) {
     return this.http.post(`${this.baseUrl}/register`, userData);
   }
+  getProfile() {
+  return this.http.get('http://localhost:5000/api/user/', {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+}
 }
