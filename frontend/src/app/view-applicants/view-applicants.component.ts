@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 interface Applicant {
   name: string;
@@ -11,6 +12,7 @@ interface Applicant {
   motivation: string;
   resumeUrl: string;
   coverLetterUrl: string;
+  status?: 'accepted' | 'rejected' | null; // ✅ Fix: define this
 }
 
 interface Assistantship {
@@ -110,4 +112,23 @@ export class ViewApplicantsComponent implements OnInit {
       this.closeModal();
     }
   }
+  statusModalApplicant: Applicant | null = null;
+  openStatusModal(applicant: Applicant) {
+    this.statusModalApplicant = applicant;
+  }
+  
+  closeStatusModal() {
+    this.statusModalApplicant = null;
+  }
+  
+  updateStatus(applicant: Applicant, status: 'accepted' | 'rejected') {
+    const confirmed = status === 'rejected' ? confirm('Are you sure you want to decline this applicant?') : true;
+  
+    if (confirmed) {
+      applicant.status = status;
+      this.closeStatusModal();
+    }
+  }
+  
+  
 }

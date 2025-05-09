@@ -1,1 +1,49 @@
-<p>jobs works!</p>
+<div class="flex-layout">
+    <!-- Jobs List -->
+    <main class="main-container">
+      <h1 class="page-title">Jobs</h1>
+  
+      <div class="space-y-4">
+        <div *ngFor="let job of jobs" class="job-card">
+          <div>
+            <p class="job-title">{{ job.title }}</p>
+            <p class="job-info">Domain: {{ job.domain }}</p>
+            <p class="job-info">Deadline: {{ job.deadline }}</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <span
+              class="job-status"
+              [ngClass]="job.status === 'open' ? 'status-open' : 'status-closed'"
+            >
+              {{ job.status }}
+            </span>
+            <button class="job-button" (click)="openModal(job)">
+              View
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Modal -->
+      <div *ngIf="selectedJob" class="modal-overlay">
+        <div class="modal-container">
+          <button class="modal-close" (click)="closeModal()" aria-label="Close modal">&times;</button>
+          <h2 class="job-title mb-2">{{ selectedJob.title }}</h2>
+          <p><strong>Domain:</strong> {{ selectedJob.domain }}</p>
+          <p><strong>Deadline:</strong> {{ selectedJob.deadline }}</p>
+          <p class="mt-4 font-semibold">Description</p>
+          <p class="job-info mb-4">{{ selectedJob.description }}</p>
+  
+          <label class="label">Upload resume</label>
+          <input type="file" class="input" />
+  
+          <label class="label">Motivation</label>
+          <textarea class="textarea" rows="4" placeholder="Write your motivation here..."></textarea>
+  
+          <button class="job-button submit-button">Submit application</button>
+          
+        </div>
+      </div>
+    </main>
+  </div>
+  

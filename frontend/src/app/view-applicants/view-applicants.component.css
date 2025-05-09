@@ -21,6 +21,10 @@
   .mb-4 {
     margin-bottom: 1rem;
   }
+
+  .gap-4 {
+    gap: 1rem;
+  }
   
   .block {
     display: block;
@@ -77,3 +81,16 @@
     color: #000;
   }
   
+  .button-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px; 
+    margin-bottom: 0;
+  }
+
+  .status-btn,
+.view-btn {
+  margin: 0;
+  display: inline-block;
+}
