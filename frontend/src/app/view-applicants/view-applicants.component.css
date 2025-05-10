@@ -94,3 +94,17 @@
   margin: 0;
   display: inline-block;
 }
+
+/* Success Toast Popup */
+.fixed {
+  position: fixed;
+}
+.bottom-4 {
+  bottom: 1rem;
+}
+.right-4 {
+  right: 1rem;
+}
+.z-50 {
+  z-index: 9999;
+}

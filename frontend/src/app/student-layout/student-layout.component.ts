@@ -36,7 +36,13 @@ export class StudentLayoutComponent implements OnInit{
   openSidebar() {
     this.isSidebarExpanded = true;
   }
-
+ logout() {
+  localStorage.removeItem('token');
+  this.router.navigateByUrl('/login').then(() => {
+    // Clear history so browser forward/back doesn’t restore dashboard
+    window.location.replace('/login');
+  });
+}
   // Sidebar collapse on mouse leave
   closeSidebar() {
     this.isSidebarExpanded = false;

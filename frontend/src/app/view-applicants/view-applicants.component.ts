@@ -35,6 +35,9 @@ export class ViewApplicantsComponent implements OnInit {
   statusModalApplicant: Applicant | null = null;
   isBrowser = false;
 
+  showSuccessPopup = false;
+  successMessage = '';
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -116,12 +119,42 @@ export class ViewApplicantsComponent implements OnInit {
   }
 
   updateStatus(applicant: Applicant, status: 'accepted' | 'rejected') {
-    const confirmed = status === 'rejected' ? confirm('Are you sure you want to decline this applicant?') : true;
+    const confirmed = status === 'rejected'
+      ? confirm('Are you sure you want to decline this applicant?')
+      : true;
 
-    if (confirmed) {
-      applicant.status = status;
-      this.closeStatusModal();
-      // Optional: Add backend update call here in the future
-    }
+    if (!confirmed) return;
+
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    this.http.put(
+      `http://localhost:5000/api/applications/${applicant.applicationId}/status`,
+      { status },
+      { headers }
+    ).subscribe({
+      next: () => {
+        applicant.status = status;
+        this.closeStatusModal();
+        this.successMessage = `Application ${status} successfully!`;
+        this.showSuccessPopup = true;
+
+        setTimeout(() => {
+          this.showSuccessPopup = false;
+        }, 3000);
+      },
+      error: (err) => {
+        console.error('Status update failed:', err);
+        this.successMessage = 'Failed to update status. Please try again.';
+        this.showSuccessPopup = true;
+
+        setTimeout(() => {
+          this.showSuccessPopup = false;
+        }, 3000);
+      }
+    });
   }
 }
