@@ -12,6 +12,7 @@ interface Applicant {
   status: 'accepted' | 'rejected' | null;
   submittedAt: string;
   applicationId: string;
+  resume?: string;
 }
 
 interface Assistantship {
@@ -77,7 +78,8 @@ export class ViewApplicantsComponent implements OnInit {
           motivation: app.motivation,
           status: app.status,
           submittedAt: app.submittedAt,
-          applicationId: app.applicationId
+          applicationId: app.applicationId,
+          resume: app.resumePath ? `http://localhost:5000${app.resumePath}` : null
         }));
       },
       error: (err) => {
