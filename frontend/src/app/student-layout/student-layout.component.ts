@@ -35,8 +35,8 @@ export class StudentLayoutComponent {
     this.router.navigate(['/student-profile']);
   }
 
-  onViewAssistantships() {
-    this.router.navigate(['/view-assistantships']);
+  onJobs() {
+    this.router.navigate(['/jobs']);
   }
 
   onLogout() {
