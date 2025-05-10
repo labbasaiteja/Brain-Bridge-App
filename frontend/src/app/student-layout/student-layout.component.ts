@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule,Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-student-layout',
@@ -10,12 +11,26 @@ import { RouterModule } from '@angular/router';
   templateUrl: './student-layout.component.html',
   styleUrls: ['./student-layout.component.css']
 })
-export class StudentLayoutComponent {
-  isSidebarExpanded: boolean = false;
-  showLogoutModal: boolean = false;
-  studentName: string = 'Mike Ross'; // 🔁 Replace with dynamic logic if needed
+export class StudentLayoutComponent implements OnInit{
+  isSidebarExpanded = false;
+    studentName = '';
+  showLogoutModal = false;
+  constructor(private router: Router, private http: HttpClient) {}
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.get<any>('http://localhost:5000/api/user/', { headers }).subscribe({
+        next: (res) => {
+          this.studentName = res.name;  // assuming the response is { name: 'Mike Ross', ... }
+        },
+        error: (err) => {
+          console.error('Failed to fetch user info:', err);
+        }
+      });
+    }
+  }// 🔁 Replace with dynamic logic if needed
 
-  constructor(private router: Router) {}
 
   // Sidebar expand on hover
   openSidebar() {
