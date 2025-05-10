@@ -35,7 +35,7 @@ exports.getProfessorAssistantships = async (req, res) => {
 
 
   const assistantships = await Assistantship.find({ professor: req.user.id })
-    .select('title domain endTime createdAt status')
+    .select('title description domain endTime createdAt status')
     .skip(skip)
     .limit(limit)
     .lean(); // make documents plain JS objects for easier manipulation
