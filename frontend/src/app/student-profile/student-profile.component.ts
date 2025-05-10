@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-student-profile',
@@ -10,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './student-profile.component.html',
   styleUrls: ['./student-profile.component.css']
 })
-export class StudentProfileComponent{
+export class StudentProfileComponent implements OnInit{
   
   student = {
     name: 'Mike Ross',
@@ -19,11 +20,32 @@ export class StudentProfileComponent{
     imageUrl: 'https://via.placeholder.com/120'
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient ) {}
   
   isSidebarOpen = true;
   isEditMode = false;
 
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.http.get<any>('http://localhost:5000/api/user/', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).subscribe({
+        next: (res) => {
+          console.log('API Response:', res);
+          this.student.name = res.name;
+          this.student.email = res.email;
+          this.student.major = res.major;
+        },
+        error: (err) => {
+          console.error('Failed to fetch profile:', err);
+          // Optionally redirect to login or show error
+        }
+      });
+    }
+  }
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
@@ -38,11 +60,28 @@ export class StudentProfileComponent{
   }
 
   toggleEdit() {
-    this.isEditMode =false;
+    this.isEditMode =!this.isEditMode;
   }
 
   submitChanges() {
-    this.isEditMode = false;
-    // Save logic here if needed
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.http.put<any>('http://localhost:5000/api/user/', {
+        name: this.student.name,
+        email: this.student.email,
+        major: this.student.major
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).subscribe({
+        next: () => {
+          alert('Profile updated and saved!');
+          this.isEditMode = false;
+        },
+        error: (err) => {
+          console.error('Failed to update profile:', err);
+          alert('Failed to save changes. Try again.');
+        }
+      });
+    }
   }
 }
