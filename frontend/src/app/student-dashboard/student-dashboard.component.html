@@ -42,9 +42,12 @@
       <p><strong>Motivation:</strong></p>
       <p class="mb-3">{{ selectedApplication.motivation }}</p>
 
-      <a [href]="selectedApplication.resumeUrl" download class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-        Download Resume
-      </a>
+      <div class="flex justify-end mt-4">
+  <a [href]="selectedApplication.resumeUrl" target="_blank" rel="noopener noreferrer"
+     class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+    View Resume
+  </a>
+</div>
     </div>
   </div>
 </div>
