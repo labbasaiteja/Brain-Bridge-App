@@ -1,8 +1,8 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { CommonModule } from '@angular/common';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-manage-job-postings',
@@ -12,7 +12,13 @@ import { RouterModule, Router } from '@angular/router';
   styleUrls: ['./manage-job-postings.component.css']
 })
 export class ManageJobPostingsComponent {
-  job = {
+  job: {
+    _id?: string;
+    title: string;
+    description: string;
+    domain: string;
+    deadline: string;
+  } = {
     title: '',
     description: '',
     domain: '',
@@ -22,13 +28,19 @@ export class ManageJobPostingsComponent {
   isEditMode = false;
   showConfirmModal = false;
   showSuccessMessage = false;
+  isBrowser = false;
 
-  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
-    if (isPlatformBrowser(this.platformId)) {
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+
+    if (this.isBrowser) {
       const nav = this.router.getCurrentNavigation();
       const state = nav?.extras?.state;
-
-      if (state && state['posting']) {
+      if (state?.['posting']) {
         this.isEditMode = true;
         this.job = { ...state['posting'] };
       }
@@ -45,21 +57,58 @@ export class ManageJobPostingsComponent {
 
   onSubmitConfirmed() {
     this.showConfirmModal = false;
+
+    const endTime = this.job.deadline
+      ? new Date(`${this.job.deadline}T23:59:59`).toISOString()
+      : '';
+
+    const payload = {
+      title: this.job.title.trim(),
+      description: this.job.description.trim(),
+      domain: this.job.domain.trim(),
+      endTime
+    };
+
+    console.log('Payload being sent:', payload);
+
+    if (this.isEditMode && this.job._id) {
+      this.auth.updatePosting(this.job._id, payload).subscribe({
+        next: () => this.handleSuccess('updated'),
+        error: (err) => {
+          console.error('Update failed:', err);
+          alert('Update failed: ' + (err.error?.msg || err.message || 'Unknown error'));
+        }
+      });
+    } else {
+      this.auth.createPosting(payload).subscribe({
+        next: () => this.handleSuccess('created'),
+        error: (err) => {
+          console.error('Creation failed:', err);
+          alert('Creation failed: ' + (err.error?.msg || err.message || 'Unknown error'));
+        }
+      });
+    }
+  }
+
+  handleSuccess(action: 'created' | 'updated') {
     this.showSuccessMessage = true;
-
-    // 🔁 For backend integration:
-    // if (this.isEditMode) {
-    //   this.api.updatePosting(this.job).subscribe(...)
-    // } else {
-    //   this.api.createPosting(this.job).subscribe(...)
-    // }
-
     setTimeout(() => {
+      this.showSuccessMessage = false;
       this.router.navigate(['/dashboard']);
     }, 3000);
   }
 
   deleteJob() {
-    this.router.navigate(['/dashboard']);
+    if (this.isEditMode && this.job._id) {
+      this.auth.deletePosting(this.job._id).subscribe({
+        next: () => this.router.navigate(['/dashboard']),
+        error: (err) => {
+          console.error('Delete failed:', err);
+          alert('Delete failed: ' + (err.error?.msg || err.message || 'Unknown error'));
+        }
+      });
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
   }
 }

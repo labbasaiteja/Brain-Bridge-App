@@ -1,15 +1,17 @@
-import { Component,HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { AuthService } from '../services/auth.service';
 
 interface Posting {
-  id: number;
+  _id: string;
   title: string;
-  description: string;
+  description?: string;
   domain: string;
-  deadline: string;
-  applicants: number;
+  endTime: string;
+  status: string;
+  createdAt: string;
+  applicantCount: number;
 }
 
 @Component({
@@ -19,92 +21,106 @@ interface Posting {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
-  constructor(private router: Router) {}
-  
-  @HostListener('document:keydown.escape', ['$event'])
-handleEscapeKey(event: KeyboardEvent) {
-  if (this.selectedPosting) {
-    this.closeModal();
+export class DashboardComponent implements OnInit {
+  postings: Posting[] = [];
+  selectedPosting: Posting | null = null;
+  isBrowser = false;
+
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
   }
-}
 
-  postings: Posting[] = [
-    {
-      id: 1,
-      title: 'AI Research Assistant',
-      description:`Assist in developing ML models. 10 hrs/week. Pay: $20/hr.
-      Duration: Until Dec 2025. Required: Python, TensorFlow.
-      Good to have: PyTorch, research experience.`,
-      domain: 'Computer Science',
-      deadline: '2025-06-30',
-      applicants: 2
-    },
-    {
-      id: 2,
-      title: 'Data Collection Intern',
-      description:`Support survey-based data collection. 5 hrs/week. $15/hr.
-      Role ends Oct 2025. Required: Excel, attention to detail.
-      Good to have: data cleaning knowledge.`,
-      domain: 'Data Science',
-      deadline: '2025-07-15',
-      applicants: 1
-    },
-    {
-      id: 3,
-      title: 'UX Design Assistant',
-      description: 'temp details',
-      domain: 'Human-Computer Interaction',
-      deadline: '2025-08-01',
-      applicants: 1
-    },
-    {
-      id: 4,
-      title: 'Machine Learning Analyst',
-      description: `temp details',`,
-      domain: 'Artificial Intelligence',
-      deadline: '2025-06-20',
-      applicants: 0
+  ngOnInit(): void {
+    if (this.isBrowser) {
+      this.fetchPostings(() => {
+        const state = history.state;
+        if (state?.newPosting?._id) {
+          const exists = this.postings.some(p => p._id === state.newPosting._id);
+          if (!exists) {
+            const newPost: Posting = {
+              _id: state.newPosting._id,
+              title: state.newPosting.title,
+              domain: state.newPosting.domain,
+              description: state.newPosting.description || '',
+              endTime: state.newPosting.endTime,
+              status: state.newPosting.status || 'open',
+              createdAt: new Date().toISOString(),
+              applicantCount: 0
+            };
+            this.postings.unshift(newPost);
+          }
+          history.replaceState({}, '');
+        }
+      });
     }
-  ];
+  }
 
-  goToApplicants(postingId: number) {
+  fetchPostings(callback?: () => void) {
+    this.auth.getProfessorPostings().subscribe({
+      next: (res) => {
+        this.postings = res.data.map((item: any) => ({
+          _id: item._id,
+          title: item.title,
+          domain: item.domain,
+          description: item.description || '',
+          endTime: item.endTime,
+          status: item.status || 'open',
+          createdAt: item.createdAt,
+          applicantCount: item.applicantCount || 0
+        }));
+        if (callback) callback();
+      },
+      error: (err) => {
+        console.error('Failed to fetch postings:', err);
+      }
+    });
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: KeyboardEvent) {
+    if (this.selectedPosting) {
+      this.closeModal();
+    }
+  }
+
+  openModal(posting: Posting) {
+    this.selectedPosting = posting;
+  }
+
+  closeModal() {
+    this.selectedPosting = null;
+  }
+
+  editPosting(posting: Posting) {
+    this.router.navigate(['/manage-job-postings'], {
+      state: { posting }
+    });
+  }
+
+  goToApplicants(postingId: string) {
     this.router.navigate(['/view-applicants'], {
       queryParams: { postingId }
     });
   }
-    
-  
 
-  
+  withdrawPosting(posting: Posting) {
+    const confirmed = confirm(`Are you sure you want to withdraw "${posting.title}"?`);
+    if (!confirmed) return;
 
-  // 🔁 Real-time integration logic (replace hardcoded list):
-  // ngOnInit(): void {
-  //   this.apiService.getPostings().subscribe((data: Posting[]) => {
-  //     this.postings = data;
-  //   });
-  // }
-
-  selectedPosting: Posting | null = null;
-
-openModal(posting: Posting) {
-  this.selectedPosting = posting;
-}
-
-closeModal() {
-  this.selectedPosting = null;
-}
-
-editPosting(posting: Posting) {
-  this.router.navigate(['/manage-job-postings'], {
-    state: { posting }
+    this.auth.deletePosting(posting._id).subscribe({
+      next: () => {
+        this.postings = this.postings.filter(p => p._id !== posting._id);
+        this.closeModal();
+        alert(`Assistantship "${posting.title}" withdrawn.`);
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Withdraw failed: ' + (err.error?.msg || err.message));
+      }
     });
   }
-
-withdrawPosting(posting: Posting) {
-  this.postings = this.postings.filter(p => p.id !== posting.id);
-  this.closeModal();
-  console.log(`Withdrawn: ${posting.title}`);
- }
 }
-
