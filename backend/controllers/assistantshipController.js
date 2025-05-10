@@ -258,7 +258,7 @@ exports.getAllAssistantships = async (req, res) => {
 
   const total = await Assistantship.countDocuments();
   const data = await Assistantship.find()
-    .select('title domain endTime createdAt status')
+    .select('title description domain endTime createdAt status')
     .skip(skip)
     .limit(limit)
     .populate('professor', 'name email')
