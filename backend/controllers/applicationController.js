@@ -143,7 +143,7 @@ exports.getApplicationsStu = async (req, res) => {
     return res.status(403).json({ msg: 'Only students can view this' });
 
   const applications = await Application.find({ student: req.user.id })
-    .populate('assistantship', 'title');
+    .populate('assistantship', 'title domain endTime description');
   res.json(applications);
 };
 

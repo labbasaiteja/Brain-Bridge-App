@@ -1,6 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
 
 interface Application {
   id: number;
@@ -20,7 +22,7 @@ interface Application {
   templateUrl: './student-dashboard.component.html',
   styleUrls: ['./student-dashboard.component.css']
 })
-export class StudentDashboardComponent {
+export class StudentDashboardComponent implements OnInit{
   selectedApplication: Application | null = null;
 
   applications: Application[] = [
@@ -46,7 +48,32 @@ export class StudentDashboardComponent {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService,) {}
+
+
+  ngOnInit(): void {
+      this.loadApplications();
+  }
+  loadApplications(){
+    this.auth.getApplications().subscribe({
+      next:(apps:any)=>{
+        console.log(apps)
+        this.applications = apps.map((app:any)=>({
+          id: app._id,
+          title: app.assistantship.title,
+          domain: app.assistantship.domain,
+          deadline: app.assistantship.endTime,
+          description: app.assistantship.description,
+          motivation: app.motivation,
+          resumeUrl: "http://localhost:5000"+app.resumePath,
+          status: app.status
+        }))
+      },
+      error:(err)=>{
+        console.error('Failed to load applications:', err);
+      }
+    })
+  }
 
   openModal(app: Application) {
     this.selectedApplication = app;

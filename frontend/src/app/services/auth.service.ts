@@ -43,7 +43,7 @@ export class AuthService {
       Authorization: `Bearer ${localStorage.getItem('token')}`
      }
    });
- } 
+ }
 
   updatePosting(postingId: string, posting: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/assistantships/${postingId}`, posting,{
@@ -66,4 +66,12 @@ export class AuthService {
     }
   });
  }
+
+  getApplications(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/applications/student`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
 }
