@@ -2,7 +2,7 @@
     <!-- Jobs List -->
     <main class="main-container">
       <h1 class="page-title">Jobs</h1>
-  
+
       <div class="space-y-4">
         <div *ngFor="let job of jobs" class="job-card">
           <div>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-  
+
       <!-- Modal -->
       <div *ngIf="selectedJob" class="modal-overlay">
         <div class="modal-container">
@@ -34,21 +34,21 @@
           <p><strong>Deadline:</strong> {{ selectedJob.deadline }}</p>
           <p class="mt-4 font-semibold">Description</p>
           <p class="job-info mb-4">{{ selectedJob.description }}</p>
-  
+
           <label class="label">Upload resume</label>
-          <input type="file" class="input" />
-  
+          <input type="file" class="input" (change)="onFileSelected($event)"/>
+
           <label class="label">Motivation</label>
-          <textarea class="textarea" rows="4" placeholder="Write your motivation here..."></textarea>
-  
-          <button 
-          [disabled]="selectedJob.status === 'closed'" 
+          <textarea class="textarea" rows="4" [(ngModel)]="motivation"  placeholder="Write your motivation here..."></textarea>
+
+          <button
+          [disabled]="selectedJob.status === 'closed'"
+          (click)="apply()"
           class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
           Submit Application
         </button>
-          
+
         </div>
       </div>
     </main>
   </div>
-  
