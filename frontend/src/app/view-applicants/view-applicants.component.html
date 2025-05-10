@@ -34,7 +34,7 @@
         <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500" (click)="openModal(applicant)">
           View
         </button>
-        <button class="bg-gray-100 text-gray-800 px-4 py-2 rounded hover:bg-gray-200"
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300"
                 (click)="openStatusModal(applicant)">
           Update Status
         </button>
@@ -82,4 +82,11 @@
       </div>
     </div>
   </div>
+   <!-- ✅ Centered Success Toast Message -->
+<div *ngIf="showSuccessPopup" 
+     class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+            bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg text-lg z-50">
+  {{ successMessage }}
+</div>
+
 </div>
