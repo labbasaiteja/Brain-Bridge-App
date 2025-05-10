@@ -14,6 +14,8 @@ import { RouterModule,Router } from '@angular/router';
 export class JobsComponent implements OnInit {
   jobs: any[] = [];
   selectedJob: any = null;
+  resumeFile: File | null = null;
+  motivation: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -38,6 +40,41 @@ export class JobsComponent implements OnInit {
       });
   }
 
+  onFileSelected(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.resumeFile = fileInput.files[0];
+    }
+  }
+
+  apply() {
+    if (!this.selectedJob || !this.resumeFile || !this.motivation) {
+      alert('Please select a resume and enter motivation.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('assistantshipId', this.selectedJob._id);
+    formData.append('motivation', this.motivation);
+    formData.append('resume', this.resumeFile);
+
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    this.http.post<any>('http://localhost:5000/api/applications/', formData, { headers })
+      .subscribe({
+        next: () => {
+          alert('Application submitted successfully!');
+          this.closeModal();
+          this.resumeFile = null;
+          this.motivation = '';
+        },
+        error: (err) => {
+          console.error('Error submitting application', err);
+          alert(err.error?.msg ?? 'Application failed.');
+        }
+      });
+}
 
 
   openModal(job: any) {
