@@ -49,6 +49,8 @@ export class JobsComponent implements OnInit {
     }
   }
 
+   showSuccessPopup = false;
+   successMessage = '';
   apply() {
     if (!this.selectedJob || !this.resumeFile || !this.motivation) {
       alert('Please select a resume and enter motivation.');
@@ -66,10 +68,13 @@ export class JobsComponent implements OnInit {
     this.http.post<any>('http://localhost:5000/api/applications/', formData, { headers })
       .subscribe({
         next: () => {
-          alert('Application submitted successfully!');
+          this.successMessage = 'Application submitted successfully!';
+          this.showSuccessPopup = true;
           this.closeModal();
           this.resumeFile = null;
           this.motivation = '';
+
+           setTimeout(() => this.showSuccessPopup = false, 3000);
         },
         error: (err) => {
           console.error('Error submitting application', err);
