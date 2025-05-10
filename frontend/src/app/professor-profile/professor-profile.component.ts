@@ -13,16 +13,16 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class ProfessorProfileComponent implements OnInit{
-  
+
   professor = {
-    name: 'John Doe',
-    email: 'johndoe@university.edu',
-    major: 'Computer Science',
-    imageUrl: 'https://via.placeholder.com/120'
+    name: '',
+    email: '',
+    major: '',
+    imageUrl: ''
   };
 
   constructor(private router: Router, private http: HttpClient ) {}
-  
+
   isSidebarOpen = true;
   isEditMode = false;
 

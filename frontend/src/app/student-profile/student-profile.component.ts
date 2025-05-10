@@ -12,16 +12,16 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./student-profile.component.css']
 })
 export class StudentProfileComponent implements OnInit{
-  
+
   student = {
-    name: 'Mike Ross',
-    email: 'mikeross@university.edu',
-    major: 'Computer Science',
-    imageUrl: 'https://via.placeholder.com/120'
+    name: '',
+    email: '',
+    major: '',
+    imageUrl: ''
   };
 
   constructor(private router: Router, private http: HttpClient ) {}
-  
+
   isSidebarOpen = true;
   isEditMode = false;
 
