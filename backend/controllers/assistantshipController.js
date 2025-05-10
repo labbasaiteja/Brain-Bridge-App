@@ -81,7 +81,7 @@ exports.getAssistantshipDetailsProf = async (req, res) => {
   // Find applications
   const applications = await Application.find({ assistantship: req.params.id })
     .populate('student', 'name email') // only populate basic student info
-    .select('motivation status createdAt'); // optional: select what fields to show
+    .select('motivation resumePath status createdAt'); // optional: select what fields to show
 
   res.json({
     title: assistantship.title,
@@ -94,6 +94,7 @@ exports.getAssistantshipDetailsProf = async (req, res) => {
       studentName: app.student.name,
       studentEmail: app.student.email,
       motivation: app.motivation,
+      resumePath: app.resumePath,
       status: app.status,
       submittedAt: app.createdAt,
       applicationId: app._id // optional: include application ID for further actions
