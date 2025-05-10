@@ -38,7 +38,7 @@ export class LoginComponent {
             if (role === 'professor') {
               this.router.navigate(['/dashboard']);
             } else if (role === 'student') {
-              this.router.navigate(['/student-home']);
+              this.router.navigate(['/student-dashboard']);
             } else {
               alert('Unknown role');
             }
