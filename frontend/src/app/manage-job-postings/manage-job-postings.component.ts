@@ -54,6 +54,9 @@ export class ManageJobPostingsComponent {
   cancelSubmit() {
     this.showConfirmModal = false;
   }
+goToDashboard() { 
+  this.router.navigate(['/dashboard']);
+}
 
   onSubmitConfirmed() {
     this.showConfirmModal = false;
