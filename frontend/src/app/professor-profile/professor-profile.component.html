@@ -24,11 +24,15 @@
 
           <div class="field-row">
             <label>Department:</label>
-            <input *ngIf="isEditMode" [(ngModel)]="professor.major" />
-            <p *ngIf="!isEditMode">{{ professor.major}}</p>
+            <p *ngIf="!isEditMode">{{ professor.major }}</p>
+            <input *ngIf="isEditMode" type="text" [(ngModel)]="professor.major" />
           </div>
-
-          <button *ngIf="isEditMode" (click)="submitChanges()">Submit</button>
+          <div>
+          <div class="button-row">
+          <button (click)="toggleEdit()" *ngIf="!isEditMode">Edit</button>
+          <button (click)="submitChanges()" *ngIf="isEditMode">Save</button>
+        </div>
+      </div>
         </div>
       </div>
     </main>

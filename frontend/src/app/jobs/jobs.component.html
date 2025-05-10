@@ -8,7 +8,8 @@
           <div>
             <p class="job-title">{{ job.title }}</p>
             <p class="job-info">Domain: {{ job.domain }}</p>
-            <p class="job-info">Deadline: {{ job.deadline }}</p>
+            <p class="text-gray-600">Deadline: {{ job.deadlineFormatted }}</p>
+
           </div>
           <div class="flex items-center gap-4">
             <span
@@ -18,7 +19,7 @@
               {{ job.status }}
             </span>
             <button class="job-button" (click)="openModal(job)">
-              View
+              Apply
             </button>
           </div>
         </div>
@@ -40,7 +41,11 @@
           <label class="label">Motivation</label>
           <textarea class="textarea" rows="4" placeholder="Write your motivation here..."></textarea>
   
-          <button class="job-button submit-button">Submit application</button>
+          <button 
+          [disabled]="selectedJob.status === 'closed'" 
+          class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+          Submit Application
+        </button>
           
         </div>
       </div>
