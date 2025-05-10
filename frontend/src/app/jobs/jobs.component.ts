@@ -28,10 +28,12 @@ export class JobsComponent implements OnInit {
         next: (res) => {
           this.jobs = res.data.map((job: any) => {
             const deadline = new Date(job.endTime);
+            const createdAt = new Date(job.createdAt);
             const isExpired = deadline < new Date();
             return {
               ...job,
               deadlineFormatted: deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+              createdFormatted: createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
               status: isExpired ? 'closed' : job.status
             };
           });
