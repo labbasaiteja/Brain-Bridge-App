@@ -24,6 +24,14 @@ export class LoginComponent {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  ngOnInit(): void {
+  const token = localStorage.getItem('token');
+  if (token) {
+    this.router.navigate(['/dashboard']);
+  }
+}
+
+
   onLogin() {
     this.auth.login({ email: this.email, password: this.password }).subscribe({
       next: (res: any) => {

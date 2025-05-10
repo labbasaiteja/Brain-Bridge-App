@@ -10,6 +10,7 @@ import { StudentLayoutComponent } from './student-layout/student-layout.componen
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   // 🔒 Public (non-layout) routes
@@ -18,7 +19,6 @@ export const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full'
   },
-
   {
     path: 'login',
     component: LoginComponent
@@ -32,6 +32,7 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -56,10 +57,10 @@ export const routes: Routes = [
       }
     ]
   },
-
   {
     path: '',
     component: StudentLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
