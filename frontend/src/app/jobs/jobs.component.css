@@ -44,12 +44,8 @@
     padding: 0.5rem 1rem;
     border-radius: 6px;
     font-weight: 600;
-    cursor: pointer;
   }
-  
-  .job-status:hover {
-    background-color:#bdc1c5; 
-  }
+
   .status-open {
     background-color: #ebf8ff; /* bg-blue-100 */
     color: #2c5282; /* text-blue-800 */

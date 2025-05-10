@@ -52,7 +52,7 @@
 button {
   margin-top: 25px;
   padding: 12px;
-  background-color: #3734A9; /* Sidebar blue */
+  background-color:  #4d49c5; /* Sidebar blue */
   color: white;
   font-weight: bold;
   border: none;
@@ -61,7 +61,9 @@ button {
   width: 100%;
   font-size: 16px;
 }
-
+button:hover {
+  background-color: #1c1f91; /* Hover color */
+}
 .link-text {
   margin-top: 15px;
   font-size: 14px;
