@@ -25,28 +25,7 @@ interface Application {
 export class StudentDashboardComponent implements OnInit{
   selectedApplication: Application | null = null;
 
-  applications: Application[] = [
-    {
-      id: 1,
-      title: 'AI Research Assistant',
-      domain: 'Computer Science',
-      deadline: '2025-06-30',
-      description: `Assist in developing ML models. 10 hrs/week. Pay: $20/hr.\nDuration: Until Dec 2025.\nRequired: Python, TensorFlow.\nGood to have: PyTorch, research experience.`,
-      motivation: 'I am excited about AI research and want to contribute to real-world projects.',
-      resumeUrl: 'assets/student-resume.pdf',
-      status: 'Applied'
-    },
-    {
-      id: 2,
-      title: 'UX Design Assistant',
-      domain: 'Human-Computer Interaction',
-      deadline: '2025-08-01',
-      description: 'temp details',
-      motivation: 'Strong interest in improving user experience through design.',
-      resumeUrl: 'assets/student-resume.pdf',
-      status: 'Accepted'
-    }
-  ];
+  applications: Application[] = [];
 
   constructor(private router: Router, private auth: AuthService,) {}
 
@@ -62,7 +41,7 @@ export class StudentDashboardComponent implements OnInit{
           id: app._id,
           title: app.assistantship.title,
           domain: app.assistantship.domain,
-          deadline: app.assistantship.endTime,
+          deadline: new Date(app.assistantship.endTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
           description: app.assistantship.description,
           motivation: app.motivation,
           resumeUrl: "http://localhost:5000"+app.resumePath,
