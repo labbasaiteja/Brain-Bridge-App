@@ -18,6 +18,10 @@ export class LoginComponent {
   password = '';
   passwordVisible = false;
 
+  showSuccessPopup = false;
+  successMessage = '';
+  errorMessage = '';
+
   constructor(private auth: AuthService, private router: Router) {}
 
   togglePasswordVisibility() {
@@ -37,35 +41,32 @@ export class LoginComponent {
       next: (res: any) => {
         const token = res.token;
         localStorage.setItem('token', token);
-        alert('Login successful!');
+        
+        this.successMessage = 'Login successful!';
+        this.showSuccessPopup = true;
 
          // 🔁 Now fetch user profile
-        this.auth.getProfile().subscribe({
-          next: (user: any) => {
-            const role = user.role;
-            if (role === 'professor') {
-              this.router.navigate(['/dashboard']);
-            } else if (role === 'student') {
-              this.router.navigate(['/student-dashboard']);
-            } else {
-              alert('Unknown role');
+       setTimeout(() => {
+          this.auth.getProfile().subscribe({
+            next: (user: any) => {
+              const role = user.role;
+              if (role === 'professor') {
+                this.router.navigate(['/dashboard']);
+              } else if (role === 'student') {
+                this.router.navigate(['/student-dashboard']);
+              } else {
+                this.errorMessage = 'Unknown role';
+              }
+            },
+            error: () => {
+              this.errorMessage = 'Failed to load profile';
             }
-          },
-          error: () => {
-            alert('Failed to load profile');
-          }
-        });
-
-        // if (res.role === 'professor') {
-        //   this.router.navigate(['/dashboard']);
-        // } else if (res.role === 'student') {
-        //   this.router.navigate(['/student-home']); // Optional: add student route later
-        // } else {
-        //   alert('Unknown role');
-        // }
+          });
+        }, 2000); // Wait before redirect
       },
       error: () => {
-        alert('Invalid credentials');
+        this.errorMessage = 'Invalid credentials';
+        this.showSuccessPopup = true;
       }
     });
   }
