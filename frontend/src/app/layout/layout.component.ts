@@ -20,7 +20,7 @@ export class LayoutComponent implements OnInit{
     const token = localStorage.getItem('token');
     if (token) {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      this.http.get<any>('http://localhost:5000/api/user/', { headers }).subscribe({
+      this.http.get<any>('https://brain-bridge-app-erc6.onrender.com/api/user/', { headers }).subscribe({
         next: (res) => {
           this.professorName = res.name;  // assuming the response is { name: 'Mike Ross', ... }
         },

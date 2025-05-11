@@ -28,7 +28,7 @@ export class StudentProfileComponent implements OnInit{
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      this.http.get<any>('http://localhost:5000/api/user/', {
+      this.http.get<any>('https://brain-bridge-app-erc6.onrender.com/api/user/', {
         headers: {
           Authorization: `Bearer ${token}`
         }

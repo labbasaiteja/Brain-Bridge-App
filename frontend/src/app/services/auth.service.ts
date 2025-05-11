@@ -23,7 +23,7 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/auth/register`, userData);
   }
   getProfile() {
-  return this.http.get('http://localhost:5000/api/user/', {
+  return this.http.get('https://brain-bridge-app-erc6.onrender.com/api/user/', {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }

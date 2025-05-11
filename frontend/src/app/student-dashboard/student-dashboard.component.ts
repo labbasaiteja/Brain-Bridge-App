@@ -44,7 +44,7 @@ export class StudentDashboardComponent implements OnInit{
           deadline: new Date(app.assistantship.endTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
           description: app.assistantship.description,
           motivation: app.motivation,
-          resumeUrl: "http://localhost:5000"+app.resumePath,
+          resumeUrl: "https://brain-bridge-app-erc6.onrender.com"+app.resumePath,
           status: app.status
         }))
       },

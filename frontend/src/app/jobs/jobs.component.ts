@@ -23,7 +23,7 @@ export class JobsComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
 
-    this.http.get<any>('http://localhost:5000/api/assistantships/student', { headers })
+    this.http.get<any>('https://brain-bridge-app-erc6.onrender.com/api/assistantships/student', { headers })
       .subscribe({
         next: (res) => {
           this.jobs = res.data.map((job: any) => {
@@ -65,7 +65,7 @@ export class JobsComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
 
-    this.http.post<any>('http://localhost:5000/api/applications/', formData, { headers })
+    this.http.post<any>('https://brain-bridge-app-erc6.onrender.com/api/applications/', formData, { headers })
       .subscribe({
         next: () => {
           this.successMessage = 'Application submitted successfully!';

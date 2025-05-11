@@ -82,7 +82,7 @@ export class ViewApplicantsComponent implements OnInit {
           status: app.status,
           submittedAt: app.submittedAt,
           applicationId: app.applicationId,
-          resume: app.resumePath ? `http://localhost:5000${app.resumePath}` : null
+          resume: app.resumePath ? `https://brain-bridge-app-erc6.onrender.com${app.resumePath}` : null
         }));
       },
       error: (err) => {
@@ -132,7 +132,7 @@ export class ViewApplicantsComponent implements OnInit {
     });
 
     this.http.put(
-      `http://localhost:5000/api/applications/${applicant.applicationId}/status`,
+      `https://brain-bridge-app-erc6.onrender.com/api/applications/${applicant.applicationId}/status`,
       { status },
       { headers }
     ).subscribe({

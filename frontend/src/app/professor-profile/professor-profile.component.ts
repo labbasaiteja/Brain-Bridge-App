@@ -29,7 +29,7 @@ export class ProfessorProfileComponent implements OnInit{
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      this.http.get<any>('http://localhost:5000/api/user/', {
+      this.http.get<any>('https://brain-bridge-app-erc6.onrender.com/api/user/', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -68,7 +68,7 @@ export class ProfessorProfileComponent implements OnInit{
   submitChanges() {
     const token = localStorage.getItem('token');
     if (token) {
-      this.http.put<any>('http://localhost:5000/api/user/', {
+      this.http.put<any>('https://brain-bridge-app-erc6.onrender.com/api/user/', {
         name: this.professor.name,
         email: this.professor.email,
         major: this.professor.major
