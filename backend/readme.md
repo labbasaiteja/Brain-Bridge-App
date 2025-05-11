@@ -87,7 +87,7 @@ A full-stack web application that allows professors to post RA/TA positions and 
 
 ## 🎥 Video Demo
 
-📺 [Watch the YouTube Demo Video](https://youtu.be/your-demo-video-link)
+📺 [Watch the YouTube Demo Video](https://www.youtube.com/watch?v=rOrzKnptCFE)
 
 ---
 
