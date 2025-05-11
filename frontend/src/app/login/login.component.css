@@ -106,3 +106,30 @@ button:hover {
   max-width: 150px;
   margin: 0 auto;
 }
+
+.center-popup-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #38a169; /* green */
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 1000;
+  animation: fadeInOut 3s ease-in-out;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.center-popup-modal.ng-trigger-fadeInOut {
+  display: block;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+

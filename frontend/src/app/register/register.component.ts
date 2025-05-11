@@ -23,6 +23,10 @@ export class RegisterComponent {
   
   passwordVisible = false;
   confirmPasswordVisible = false;
+
+  showSuccessPopup = false;
+  successMessage = '';
+
   constructor(private auth: AuthService, private router: Router) {}
 
   togglePasswordVisibility() {
@@ -44,13 +48,18 @@ export class RegisterComponent {
       return;
     }
 
-    this.auth.register(this.user).subscribe({
+     this.auth.register(this.user).subscribe({
       next: () => {
-        alert('Successfully registered!');
-        this.router.navigate(['/login']);
+        this.successMessage = 'Successfully registered!';
+        this.showSuccessPopup = true;
+
+        setTimeout(() => {
+          this.showSuccessPopup = false;
+          this.router.navigate(['/login']);
+        }, 2500);
       },
       error: (err) => {
-        alert(err.error.msg || 'Registration failed');
+        alert(err.error?.msg || 'Registration failed');
       }
     });
   }
