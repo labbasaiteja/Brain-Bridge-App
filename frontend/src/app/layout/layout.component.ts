@@ -17,12 +17,16 @@ export class LayoutComponent implements OnInit{
   showLogoutModal = false;
   constructor(private router: Router, private http: HttpClient) {}
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
+    let token: string | null = null;
+    if (typeof window !== 'undefined' && window.localStorage) {
+  token = window.localStorage.getItem('token');
+   }
     if (token) {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       this.http.get<any>('https://brain-bridge-app-erc6.onrender.com/api/user/', { headers }).subscribe({
         next: (res) => {
-          this.professorName = res.name;  // assuming the response is { name: 'Mike Ross', ... }
+          this.professorName = res.name;  
         },
         error: (err) => {
           console.error('Failed to fetch user info:', err);
@@ -37,7 +41,7 @@ export class LayoutComponent implements OnInit{
 logout() {
   localStorage.removeItem('token');
   this.router.navigateByUrl('/login').then(() => {
-    // Clear history so browser forward/back doesn’t restore dashboard
+   
     window.location.replace('/login');
   });
 }

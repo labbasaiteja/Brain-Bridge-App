@@ -13,7 +13,7 @@ import { StudentProfileComponent } from './student-profile/student-profile.compo
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // 🔒 Public (non-layout) routes
+  
   {
     path: '',
     redirectTo: 'login',
@@ -28,7 +28,7 @@ export const routes: Routes = [
     component: RegisterComponent
   },
 
-  // 🧭 Main layout routes (with sidebar/header etc.)
+ 
   {
     path: '',
     component: LayoutComponent,

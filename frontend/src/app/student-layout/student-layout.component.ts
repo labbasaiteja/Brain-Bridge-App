@@ -22,14 +22,14 @@ export class StudentLayoutComponent implements OnInit{
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       this.http.get<any>('https://brain-bridge-app-erc6.onrender.com/api/user/', { headers }).subscribe({
         next: (res) => {
-          this.studentName = res.name;  // assuming the response is { name: 'Mike Ross', ... }
+          this.studentName = res.name;  
         },
         error: (err) => {
           console.error('Failed to fetch user info:', err);
         }
       });
     }
-  }// 🔁 Replace with dynamic logic if needed
+  }
 
 
   // Sidebar expand on hover
@@ -39,7 +39,7 @@ export class StudentLayoutComponent implements OnInit{
  logout() {
   localStorage.removeItem('token');
   this.router.navigateByUrl('/login').then(() => {
-    // Clear history so browser forward/back doesn’t restore dashboard
+   
     window.location.replace('/login');
   });
 }
@@ -65,7 +65,7 @@ export class StudentLayoutComponent implements OnInit{
   }
 
   confirmLogout() {
-    localStorage.removeItem('token'); // 🔁 Adjust if you have session handling
+    localStorage.removeItem('token'); 
     this.showLogoutModal = false;
     this.router.navigate(['/login']);
   }

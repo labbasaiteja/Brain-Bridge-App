@@ -9,7 +9,7 @@ import { RouterModule,Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './jobs.component.html',
-  styleUrls: ['./jobs.component.css']  // ✅ Fix: use styleUrls (plural)
+  styleUrls: ['./jobs.component.css']  
 })
 export class JobsComponent implements OnInit {
   jobs: any[] = [];
@@ -20,7 +20,11 @@ export class JobsComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
+    let token: string | null = null;
+    if (typeof window !== 'undefined' && window.localStorage) {
+     token = window.localStorage.getItem('token');
+}
     const headers = { Authorization: `Bearer ${token}` };
 
     this.http.get<any>('https://brain-bridge-app-erc6.onrender.com/api/assistantships/student', { headers })

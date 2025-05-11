@@ -128,7 +128,7 @@
 
   .header-text {
     font-size: 1.2 rem;
-    font-weight: 550; /* Adjust between 400 (normal) and 600 (semi-bold) as needed */
+    font-weight: 550; 
     color: white;
     font-family: 'Georgia';
     letter-spacing: 1px;
@@ -199,7 +199,7 @@
   display: none !important;
 }
 
-/* Optional smoother hover styling */
+
 .sidebar li:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50px;
