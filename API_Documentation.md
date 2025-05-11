@@ -31,12 +31,12 @@ Authorization: Bearer <JWT_TOKEN>
 | PUT    | `/api/applications/:id/status`                 | Accept or reject an application                         | Professor    |
 | GET    | `/api/user/`                                   | Get user's profile                                      | User         |
 | PUT    | `/api/user/`                                   | Update user's infomation                                | User         |
-| GET    | `/api/applications/:id/student`                | Student can view single application                     | Student   Unfinished  |
-| DELETE | `/api/applications/:id`                        | Student can withdraw his application                    | Student   Unfinished  |
-| GET    | `/api/applications/`                           | Student can view all application applied by him         | Student   Unfinished  |
-| GET    | `/api/assistantships/search/student`           | Search assistantships by title or domain                | Student   Unfinished  |
-| GET    | `/api/assistantships/:id/student`              | View details of single assistantship                    | Student   Unfinished  |
-| GET    | `/api/assistantships/student`                  | Student can see view all assistantships                 | Student   Unfinished  |
+| GET    | `/api/applications/:id/student`                | Student can view single application                     | Student     |
+| DELETE | `/api/applications/:id`                        | Student can withdraw his application                    | Student     |
+| GET    | `/api/applications/`                           | Student can view all application applied by him         | Student     |
+| GET    | `/api/assistantships/search/student`           | Search assistantships by title or domain                | Student     |
+| GET    | `/api/assistantships/:id/student`              | View details of single assistantship                    | Student     |
+| GET    | `/api/assistantships/student`                  | Student can see view all assistantships                 | Student     |
 ---
 
 ## Authentication
