@@ -1,7 +1,7 @@
 [build]
   base    = "frontend"
   command = "npm ci && npm run build"
-  publish = "frontend/dist/<YOUR_APP_NAME>"
+  publish = "frontend/dist/brainbridgeproject"
 
 [[redirects]]
   from = "/*"
