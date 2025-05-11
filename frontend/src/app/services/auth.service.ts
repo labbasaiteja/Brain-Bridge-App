@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:5000/api'; // adjust if your backend is hosted elsewhere
+  private baseUrl = 'https://brain-bridge-app-erc6.onrender.com/api'; // adjust if your backend is hosted elsewhere
 
   constructor(private http: HttpClient) {}
 
