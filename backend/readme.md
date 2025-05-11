@@ -20,7 +20,7 @@ A full-stack web application that allows professors to post RA/TA positions and 
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/brain-bridge.git
-   cd brain-bridge/server
+   cd brain-bridge/backend
    ```
 
 2. Install dependencies:
@@ -46,7 +46,7 @@ A full-stack web application that allows professors to post RA/TA positions and 
 
 1. Navigate to the frontend:
    ```bash
-   cd ../client
+   cd ../frontend
    ```
 
 2. Install dependencies:
@@ -68,19 +68,18 @@ A full-stack web application that allows professors to post RA/TA positions and 
 
 ## 👥 Team Roles
 
-| Name                 | Role                  | Responsibilities |
-|----------------------|------------------------|------------------|
-| **Sai Teja Labba**   | Frontend Developer     | Angular components, routing, services, UI |
-| **Divya Reddy**      | Backend Developer      | Express API routes, server setup, middleware |
-| **Cai An**           | Database Developer     | MongoDB models using Mongoose |
-| **Nagarjuna Kandimalla** | Deployment & Presentation | Hosting, testing, documentation, demo video |
-
+| Name                 | Role                  | 
+|----------------------|------------------------|
+| **Nagarjuna Kandimalla** | Frontend & Presentation & Deployment | 
+| **Cai An**           | Backend & Database & Frontend    | 
+| **Divya Reddy**      | Frontend       | 
+| **Sai Teja Labba**   | Backend & Setup     | 
 ---
 
 ## 🌍 Deployment Links
 
 - **Frontend (Angular)**: [https://brainbridge-frontend.vercel.app](https://brainbridge-frontend.vercel.app)  
-- **Backend (Express API)**: [https://brainbridge-api.onrender.com](https://brainbridge-api.onrender.com)
+- **Backend (Express API)**: [https://brain-bridge-app-erc6.onrender.com](https://brain-bridge-app-erc6.onrender.com)
 
 > 💡 Ensure both frontend and backend are running and correctly connected to MongoDB.
 
