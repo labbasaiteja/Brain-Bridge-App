@@ -9,6 +9,7 @@
     "test": "ng test",
     "serve:ssr:frontend": "node dist/frontend/server/server.mjs"
   },
+  "engines": { "node": "16.x" },
   "private": true,
   "dependencies": {
     "@angular/common": "^19.2.0",
